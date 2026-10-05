@@ -67,15 +67,69 @@ governance/producer-activation step.
 This repository therefore must not claim to emit canonical `documents.*.v2`
 events until that activation is merged in Shared.
 
+## RTD-05 cross-engine references
+
+RTD-05 is now defined by:
+
+```text
+contracts/cross-engine-reference/v1
+```
+
+under ADR-SHARED-021.
+
+Cross-engine references preserve owner, object type, object identity, tenant
+scope and historical pinning without copying foreign aggregates.
+
+## RTD-06 Regulations ↔ Trade Docs exchange
+
+RTD-06 is now defined by:
+
+```text
+contracts/regulatory-document-exchange/v1
+```
+
+under ADR-SHARED-022.
+
+Trade Docs is responsible for the documentary side of the exchange:
+
+```text
+DocumentVersion
+document type/family
+issuer claim
+verification snapshot
+temporal-validity snapshot
+subject references
+documentary assertions
+content-artifact references
+```
+
+The canonical Trade Docs query surface is:
+
+```text
+POST /v1/regulatory-document-evidence/resolve
+```
+
+Trade Docs may eventually publish:
+
+```text
+com.baobab-platform.documents.regulatory-evidence.offered.v1
+```
+
+but RTD-06 deliberately does not activate that event. Activation remains RTD-07.
+
+Trade Docs SHALL NOT emit:
+
+```text
+requirement_satisfied = true
+compliant = true
+```
+
+as documentary facts. Regulations owns those conclusions.
+
 ## Future contracts
 
-Do not invent local permanent substitutes for work explicitly deferred by the
-RTD programme:
-
-- RTD-05 — `CrossEngineObjectReference`;
-- RTD-06 — Regulations ↔ Trade Docs requirement/evidence contracts;
-- later Trade Docs dossier/CustomsCase/CustomsDeclaration/authority-response
-  contracts.
+Do not invent local permanent substitutes for later Trade Docs
+dossier/CustomsCase/CustomsDeclaration/authority-response contracts.
 
 Prototype types may exist behind local ports only if they are clearly
 non-canonical and replaceable.
