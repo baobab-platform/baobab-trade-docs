@@ -86,11 +86,14 @@ The v2 package establishes:
 - issuer claims;
 - typed subject associations;
 - document-to-document relationships;
-- proposed `documents.*.v2` event facts.
+- ACTIVE canonical `documents.*.v2` fact events with `baobab-trade-docs` as producer under ADR-SHARED-023.
 
-Producer activation is intentionally separate from RTD-04. Until Shared event
-governance assigns an authorised producer, the v2 event types remain
-`PROPOSED`.
+Producer activation is now complete at the contract-governance layer:
+ADR-SHARED-023 / RTD-07 assigns `baobab-trade-docs` as the canonical
+`documents` steward and producer for the reconciled v2 event family.
+
+This does not mean the application runtime/outbox/broker implementation already
+exists; the repository still has no production runtime.
 
 ## Cross-engine relationship
 
@@ -162,13 +165,14 @@ EXTERNAL_NORMALIZED
 
 so OCR/extraction cannot silently become issuer authority.
 
-The future:
+RTD-07 also activates:
 
 ~~~text
 com.baobab-platform.documents.regulatory-evidence.offered.v1
 ~~~
 
-event is defined by RTD-06 but remains unactivated until RTD-07.
+as a Trade Docs-produced fact. It records documentary evidence being offered;
+it does not assert Regulations acceptance or requirement satisfaction.
 
 ## Contract dependencies
 
@@ -183,6 +187,8 @@ Current architectural dependencies:
 | Control Plane contracts | Tenant/platform context and canonical identity boundaries |
 | Shared `cross-engine-reference/v1` / ADR-SHARED-021 | Portable owner/type/id/version references |
 | Shared `regulatory-document-exchange/v1` / ADR-SHARED-022 | Regulations ↔ Trade Docs requirement/evidence choreography |
+| Shared ADR-SHARED-023 | `documents` context stewardship and Trade Docs producer activation |
+| Shared `regulatory-document-evidence/v1` | ACTIVE AsyncAPI surface for documentary evidence offered |
 
 Canonical contracts remain in `baobab-platform/shared`; this repository must
 consume them through a pinned contract lock once implementation begins. They
