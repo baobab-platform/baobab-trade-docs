@@ -1,64 +1,163 @@
-<!-- Target path: baobab-platform/engine-template/README.md (becomes <new-repo>/README.md in any repo created from this template). -->
+# baobab-trade-docs
 
-# <engine-repo-name>
+> **Status:** architecture established; runtime implementation has not started.
 
-<!--
-  TODO before this repo's first real PR merges — then delete this comment block:
-  1. Replace the title above with the real repo name (e.g. `baobab-iam`), matching
-     the naming convention: short, hyphenated, no `-engine`/`-control-plane` suffix
-     (see baobab-platform/baobab-cp, baobab-platform/baobab-trade, baobab-platform/baobab-erp,
-     baobab-platform/baobab-pulse, baobab-platform/baobab-cms for precedent).
-  2. Replace ADR-000N below with the real ADR number recording this engine's
-     addition to the ecosystem. File it in baobab-platform/shared/docs/adr/, continuing
-     the existing sequence (see that repo's docs/adr/ for the next free number).
-  3. Fill in the "Role", "Ownership", and "Contract dependencies" sections below
-     with what's actually true for this engine — do not leave the placeholder
-     prose in place.
-  4. See TEMPLATE-USAGE.md in this repo's root for the full activation checklist
-     (CODEOWNERS, devcontainer, Foundation gates, branch protection) — do that
-     before writing application code, then delete that file too.
--->
-
-> **Status:** scaffolded, not yet built — see ADR-000N.
+Baobab Trade Docs is the Baobab Platform engine for **executable trade-document
+and Customs-workflow state**. Its accepted architecture is defined by
+ADR-TDOC-0001 and ADR-TDOC-0002 and is bounded by the platform-level
+ADR-SHARED-019 relationship with Baobab Regulations and Baobab Pulse.
 
 ## Role
 
-One paragraph: what this engine owns, in the ecosystem's own vocabulary — and,
-just as important, what it explicitly does *not* own (business logic that
-belongs to another engine, contracts that belong to `baobab-platform/shared`,
-infrastructure that belongs to `baobab-platform/infrastructure`). Model this on the
-"Role" section of an existing repo's README rather than writing it from
-scratch — see `baobab-platform/infrastructure`'s README for the shape.
+Trade Docs owns the reusable platform semantics for:
 
-## Ownership
+- durable `TradeDocument` identity;
+- immutable `DocumentVersion`;
+- document content/artifact association;
+- document lifecycle;
+- documentary verification workflow;
+- document relationships and provenance;
+- future document dossiers;
+- future Customs cases, declaration/submission workflows and authority
+  responses.
 
-This repository will contain:
+It does **not** become authoritative for every fact contained in a document.
 
-- TODO
+Examples:
 
-It must not contain:
+```text
+commercial invoice financial value
+    → ERP / commercial authority
 
-- TODO
+shipment movement
+    → TMS / logistics authority
+
+HS classification / regulatory requirement
+    → Baobab Regulations
+
+organisation identity
+    → Control Plane
+
+Customs release
+    → competent Customs authority
+```
+
+## Foundational separations
+
+```text
+TradeDocument != File
+TradeDocument != DocumentVersion
+DocumentVersion != ContentArtifact
+
+Document Lifecycle != Verification State
+Verification != Regulatory Sufficiency
+
+Document Requirement != TradeDocument
+
+TradeDocument ID != Control Plane CanonicalEntity ID
+```
+
+Trade Docs owns the documentary side of these boundaries. Baobab Regulations
+owns document/permit/evidence requirements and requirement-satisfaction
+decisions.
+
+## Shared contract authority
+
+The canonical Shared document foundation is:
+
+```text
+baobab-platform/shared/contracts/trade-document/v2
+```
+
+governed by ADR-SHARED-020 / RTD-04.
+
+The older Shared `trade-document/v1` package is a preserved pre-Trade-Docs
+compatibility scaffold. New implementation must not target its overloaded
+`status`, root-level `storage_reference`, Control Plane-minted document ID,
+or proposed `trade-document.verified/rejected.v1` events.
+
+The v2 package establishes:
+
+- Trade Docs-minted opaque document IDs;
+- extensible document type codes;
+- first-class immutable versions;
+- ContentArtifact storage and digest semantics;
+- separate lifecycle / verification / temporal-validity axes;
+- issuer claims;
+- typed subject associations;
+- document-to-document relationships;
+- proposed `documents.*.v2` event facts.
+
+Producer activation is intentionally separate from RTD-04. Until Shared event
+governance assigns an authorised producer, the v2 event types remain
+`PROPOSED`.
+
+## Cross-engine relationship
+
+```text
+               CONTROL PLANE
+          context / capability binding
+                    │
+                    ▼
+            BAOBAB REGULATIONS
+     requirements / applicability / decision
+                    │
+          requirements / decision refs
+                    ▼
+             BAOBAB TRADE DOCS
+      documents / versions / workflow facts
+                    │
+          documentary evidence refs
+                    ▼
+            BAOBAB REGULATIONS
+        requirement satisfaction / decision
+                    │
+             operational disposition
+                    ▼
+             Trade / TMS / ERP
+```
+
+Pulse may consume Regulations and Trade Docs facts asynchronously for
+risk, opportunity, forecasting and research. Pulse is not part of the
+synchronous documentary/regulatory enforcement path.
 
 ## Contract dependencies
 
-Note which `baobab-platform/shared` contracts this engine consumes or publishes
-(event schemas, API contracts, the Development Environment Contract), and at
-what pinned version/tag — e.g. `baobab-platform/shared@v1`. Do not commit to a
-contract here until it's actually confirmed; an empty scaffold doesn't need
-one yet.
+Current architectural dependencies:
 
-## Local development
+| Contract / decision | Role |
+|---|---|
+| Shared ADR-SHARED-019 | Cross-engine Regulations ↔ Trade Docs ↔ Pulse authority boundary |
+| Shared ADR-SHARED-020 | TradeDocument v2 contract reconciliation |
+| Shared `trade-document/v2` | Canonical document/version/content/relationship wire semantics |
+| Shared event envelope | Cross-engine event metadata |
+| Control Plane contracts | Tenant/platform context and canonical identity boundaries |
+| Future RTD-05 contract | Portable cross-engine canonical object references |
+| Future RTD-06 contracts | Regulations ↔ Trade Docs requirement/evidence choreography |
 
-This repository uses the shared `baobab-dev` devcontainer image. See
-`.baobab/environment.yaml` for the declared profile and required
-capabilities, and `.devcontainer/devcontainer.json` for the pinned image tag.
+Canonical contracts remain in `baobab-platform/shared`; this repository must
+consume them through a pinned contract lock once implementation begins. They
+must not be copied or forked locally.
 
-(Both of those are still `.example` files until this repo's language stack
-and `baobab-dev` profile are decided — see `TEMPLATE-USAGE.md`.)
+## ADR programme
 
-## Foundation status
+- ADR-TDOC-0001 — Baobab Trade Docs Mission, Authority, Executable Trade
+  Document and Customs Workflow Boundary.
+- ADR-TDOC-0002 — Canonical TradeDocument, Version, Content and Relationship
+  Model.
 
-Foundation 0 (this scaffold: README, CODEOWNERS, branch protection) is
-complete. Foundation 1 (application code, real devcontainer/environment
-declaration, Foundation CI gates) has not started.
+Later ADRs are expected to cover dossier, Customs case/declaration workflows,
+authority adapters, verification/trust, transferable records, retention and
+other implementation domains.
+
+## Implementation status
+
+No production application runtime is present yet.
+
+Before runtime implementation begins, the repository must activate its real
+language/runtime declaration, devcontainer and Foundation CI rather than
+leaving template `.example` workflow/environment files as the execution
+surface.
+
+The implementation must start from Shared v2 semantics rather than reproducing
+the old v1 model locally.
