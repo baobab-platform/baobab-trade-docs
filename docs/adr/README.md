@@ -12,8 +12,11 @@ by `baobab-platform/shared/docs/adr/`.
    Pulse authority boundary.
 2. **ADR-SHARED-020** governs the Shared TradeDocument v2 contract
    reconciliation.
-3. **ADR-TDOC-0001** governs this engine's mission and system boundary.
-4. **ADR-TDOC-0002** governs TradeDocument, DocumentVersion, content and
+3. **ADR-SHARED-021** governs portable cross-engine object references.
+4. **ADR-SHARED-022** governs Regulations ↔ Trade Docs requirement/evidence
+   choreography and the RTD-06 API/event surfaces.
+5. **ADR-TDOC-0001** governs this engine's mission and system boundary.
+6. **ADR-TDOC-0002** governs TradeDocument, DocumentVersion, content and
    relationship semantics.
 
 If a local implementation conflicts with an accepted Shared cross-engine
@@ -28,7 +31,7 @@ adapters.
 | ADR-TDOC-0001 | Accepted | Baobab Trade Docs Mission, Authority, Executable Trade Document and Customs Workflow Boundary |
 | ADR-TDOC-0002 | Accepted | Canonical TradeDocument, Version, Content and Relationship Model |
 
-## RTD-04 contract result
+## RTD-04 / RTD-05 / RTD-06 contract result
 
 The canonical Shared foundation is:
 
