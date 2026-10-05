@@ -35,7 +35,7 @@ The package currently contains:
 - `events.schema.json`
   - minimal document/version/artifact/relationship fact payloads
 - `asyncapi.yaml`
-  - proposed `documents.*.v2` event definitions
+  - ACTIVE `documents.*.v2` event definitions produced by `baobab-trade-docs` under ADR-SHARED-023
 - examples validated in Shared CI.
 
 ## v1 compatibility rule
@@ -56,16 +56,33 @@ trade-document.rejected.v1 as a lifecycle event
 
 as the canonical Trade Docs domain.
 
-## Producer status
+## Producer status — RTD-07
 
-RTD-04 does not activate event production.
+ADR-SHARED-023 / RTD-07 assigns:
 
-Even though Trade Docs is the accepted target authority for the `documents`
-context, Shared v2 event entries remain `PROPOSED` until the later event
-governance/producer-activation step.
+```text
+documents steward = baobab-trade-docs
+canonical producer = baobab-trade-docs
+```
 
-This repository therefore must not claim to emit canonical `documents.*.v2`
-events until that activation is merged in Shared.
+for the reconciled TradeDocument v2 event family.
+
+The Shared event registry now marks those v2 events `ACTIVE`.
+
+The legacy v1:
+
+```text
+trade-document.issued.v1
+trade-document.verified.v1
+trade-document.rejected.v1
+```
+
+remain `PROPOSED` and producerless. They are compatibility history and must
+not be implemented as the new runtime event target.
+
+`ACTIVE` here grants canonical producer authority. It does **not** claim
+that this repository already contains a deployed application runtime,
+transactional outbox, relay or broker integration.
 
 ## RTD-05 cross-engine references
 
@@ -109,13 +126,19 @@ The canonical Trade Docs query surface is:
 POST /v1/regulatory-document-evidence/resolve
 ```
 
-Trade Docs may eventually publish:
+RTD-07 activates the document-side RTD-06 fact:
 
 ```text
 com.baobab-platform.documents.regulatory-evidence.offered.v1
 ```
 
-but RTD-06 deliberately does not activate that event. Activation remains RTD-07.
+with `baobab-trade-docs` as the canonical producer.
+
+Its AsyncAPI publication contract lives in Shared under:
+
+```text
+contracts/regulatory-document-evidence/v1
+```
 
 Trade Docs SHALL NOT emit:
 
