@@ -15,8 +15,10 @@ by `baobab-platform/shared/docs/adr/`.
 3. **ADR-SHARED-021** governs portable cross-engine object references.
 4. **ADR-SHARED-022** governs Regulations ↔ Trade Docs requirement/evidence
    choreography and the RTD-06 API/event surfaces.
-5. **ADR-TDOC-0001** governs this engine's mission and system boundary.
-6. **ADR-TDOC-0002** governs TradeDocument, DocumentVersion, content and
+5. **ADR-SHARED-023** assigns `baobab-trade-docs` as the canonical `documents`
+   event-context steward/producer and activates the reconciled document event surfaces.
+6. **ADR-TDOC-0001** governs this engine's mission and system boundary.
+7. **ADR-TDOC-0002** governs TradeDocument, DocumentVersion, content and
    relationship semantics.
 
 If a local implementation conflicts with an accepted Shared cross-engine
@@ -31,7 +33,7 @@ adapters.
 | ADR-TDOC-0001 | Accepted | Baobab Trade Docs Mission, Authority, Executable Trade Document and Customs Workflow Boundary |
 | ADR-TDOC-0002 | Accepted | Canonical TradeDocument, Version, Content and Relationship Model |
 
-## RTD-04 / RTD-05 / RTD-06 contract result
+## RTD-04 / RTD-05 / RTD-06 / RTD-07 contract result
 
 The canonical Shared foundation is:
 
