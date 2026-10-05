@@ -121,6 +121,55 @@ Pulse may consume Regulations and Trade Docs facts asynchronously for
 risk, opportunity, forecasting and research. Pulse is not part of the
 synchronous documentary/regulatory enforcement path.
 
+
+RTD-06 defines the concrete documentary exchange:
+
+~~~text
+Regulations
+  pinned requirement
+       │
+       ▼
+Trade Docs
+  exact DocumentVersion
+  documentary verification / validity
+  provenance-aware assertions
+       │
+       ▼
+Regulations
+  requirement-satisfaction assessment
+~~~
+
+Trade Docs exposes documentary facts through:
+
+~~~text
+POST /v1/regulatory-document-evidence/resolve
+~~~
+
+and calls the Regulations assessment command when authorised:
+
+~~~text
+POST /v1/documentary-evidence/assessments
+~~~
+
+The documentary assertion model explicitly preserves:
+
+~~~text
+ISSUER_ASSERTED
+BAOBAB_EXTRACTED
+BAOBAB_GENERATED
+EXTERNAL_NORMALIZED
+~~~
+
+so OCR/extraction cannot silently become issuer authority.
+
+The future:
+
+~~~text
+com.baobab-platform.documents.regulatory-evidence.offered.v1
+~~~
+
+event is defined by RTD-06 but remains unactivated until RTD-07.
+
 ## Contract dependencies
 
 Current architectural dependencies:
@@ -132,8 +181,8 @@ Current architectural dependencies:
 | Shared `trade-document/v2` | Canonical document/version/content/relationship wire semantics |
 | Shared event envelope | Cross-engine event metadata |
 | Control Plane contracts | Tenant/platform context and canonical identity boundaries |
-| Future RTD-05 contract | Portable cross-engine canonical object references |
-| Future RTD-06 contracts | Regulations ↔ Trade Docs requirement/evidence choreography |
+| Shared `cross-engine-reference/v1` / ADR-SHARED-021 | Portable owner/type/id/version references |
+| Shared `regulatory-document-exchange/v1` / ADR-SHARED-022 | Regulations ↔ Trade Docs requirement/evidence choreography |
 
 Canonical contracts remain in `baobab-platform/shared`; this repository must
 consume them through a pinned contract lock once implementation begins. They
