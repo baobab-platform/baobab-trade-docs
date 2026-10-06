@@ -1,0 +1,24 @@
+schema: baobab-rtd-conformance
+version: "1.0"
+programme: RTD-10
+repository:
+  id: baobab-trade-docs
+  role: TRADE_DOCUMENT_AUTHORITY
+  maturity: ARCHITECTURE_ONLY
+shared:
+  repository: baobab-platform/shared
+  commit: "6e0267572edb533ce781b2a7fc6863918ca2d62e"
+  required_contracts:
+    - contracts/control-plane/v1/domain.schema.json
+    - contracts/cross-engine-reference/v1/domain.schema.json
+    - contracts/events/v1/envelope.schema.json
+    - contracts/trade-document/v2/domain.schema.json
+    - contracts/trade-document/v2/events.schema.json
+    - contracts/regulatory-document-exchange/v1/domain.schema.json
+    - contracts/regulatory-document-exchange/v1/events.schema.json
+evidence:
+  adr_paths:
+    - docs/adr/ADR-TDOC-0001 — Baobab Trade Docs Mission, Authority, Executable Trade Document and Customs Workflow Boundary.md
+    - docs/adr/ADR-TDOC-0002 — Canonical TradeDocument, Version, Content and Relationship Model.md
+  source_paths: []
+  test_paths: []
