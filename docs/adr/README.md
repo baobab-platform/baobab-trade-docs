@@ -1,17 +1,53 @@
-<!-- Target path: baobab-platform/engine-template/docs/adr/README.md (becomes <new-repo>/docs/adr/README.md in any repo created from this template). -->
+# Baobab Trade Docs Architecture Decision Records
 
-# ADRs
+This directory is the engine-local ADR canon for
+`baobab-platform/baobab-trade-docs`.
 
-Ecosystem-level decisions (new engines, cross-repo contract changes, org-wide
-tooling like this template) are recorded centrally as numbered ADRs in
-`baobab-platform/shared/docs/adr/`, continuing that repo's existing sequence — not
-here. This engine's own scaffolding decision (its addition to the ecosystem)
-should have an entry there; see `README.md`'s "ADR-000N" reference.
+Cross-engine authority and canonical wire-contract decisions remain governed
+by `baobab-platform/shared/docs/adr/`.
 
-Whether *this repo* should also keep repo-local ADRs for engine-internal
-decisions (as opposed to ecosystem-level ones) is not yet a settled
-convention — `baobab-platform/shared`'s governance strategy flags "is
-`baobab-platform/shared/docs/adr/` meant to be the single ADR log for the whole org,
-or just for contract-schema decisions specifically?" as still open. Until
-that's resolved, don't assume this folder is the right place for a
-repo-local decision log — check with whoever owns that governance doc first.
+## Precedence relevant to Trade Docs
+
+1. **ADR-SHARED-019** governs the platform-level Regulations ↔ Trade Docs ↔
+   Pulse authority boundary.
+2. **ADR-SHARED-020** governs the Shared TradeDocument v2 contract
+   reconciliation.
+3. **ADR-SHARED-021** governs portable cross-engine object references.
+4. **ADR-SHARED-022** governs Regulations ↔ Trade Docs requirement/evidence
+   choreography and the RTD-06 API/event surfaces.
+5. **ADR-SHARED-023** assigns `baobab-trade-docs` as the canonical `documents`
+   event-context steward/producer and activates the reconciled document event surfaces.
+6. **ADR-TDOC-0001** governs this engine's mission and system boundary.
+7. **ADR-TDOC-0002** governs TradeDocument, DocumentVersion, content and
+   relationship semantics.
+
+If a local implementation conflicts with an accepted Shared cross-engine
+contract or boundary, the conflict must be reconciled architecturally. It must
+not be hidden through copied schemas, direct database access or undocumented
+adapters.
+
+## ADR register
+
+| ADR | Status | Decision |
+|---|---|---|
+| ADR-TDOC-0001 | Accepted | Baobab Trade Docs Mission, Authority, Executable Trade Document and Customs Workflow Boundary |
+| ADR-TDOC-0002 | Accepted | Canonical TradeDocument, Version, Content and Relationship Model |
+
+## RTD-04 / RTD-05 / RTD-06 / RTD-07 contract result
+
+The canonical Shared foundation is:
+
+```text
+contracts/trade-document/v2
+```
+
+The old v1 package is compatibility history, not the implementation target.
+
+Future local ADRs should build from the v2 foundation and must not reintroduce:
+
+- Control Plane-minted TradeDocument IDs;
+- file-as-document identity;
+- mutable issued document versions;
+- lifecycle/verification conflation;
+- regulatory requirement logic inside document type definitions;
+- direct cross-engine database ownership.

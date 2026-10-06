@@ -2,6 +2,7 @@
 
 **Status:** Accepted — Foundational Engine Charter  
 **Date:** 2026-10-03  
+**Amended:** 2026-10-05 — RTD-06/RTD-07 under ADR-SHARED-021/022/023; cross-engine exchange made executable and canonical `documents` event stewardship/producer authority assigned to `baobab-trade-docs`  
 **Repository:** `baobab-platform/baobab-trade-docs`  
 **Engine:** Baobab Trade Docs  
 **Engine Role:** Headless Executable Trade Document, Customs Workflow and Regulatory Evidence Capability Provider  
@@ -16,6 +17,131 @@
 **Decision Class:** Engine mission / trade documents / customs workflow / declarations / document evidence / authority adapters / system-of-record boundary
 
 ---
+
+# RTD-06 Normative Amendment — Regulatory Requirement and Documentary Evidence Exchange
+
+ADR-SHARED-021 and ADR-SHARED-022 now govern the executable cross-engine reference and exchange semantics between Trade Docs and Regulations.
+
+## A. Requirements arrive as pinned Regulations authority
+
+Trade Docs consumes pinned references/projections for:
+
+~~~text
+DOCUMENT_REQUIREMENT
+PERMIT_REQUIREMENT
+EVIDENCE_REQUIREMENT
+REGULATORY_DECISION
+~~~
+
+Trade Docs SHALL NOT rewrite, reinterpret or locally reproduce those requirements as legal truth.
+
+## B. Trade Docs supplies documentary facts
+
+The canonical cross-engine documentary projection is:
+
+~~~text
+DocumentEvidenceFactBundle
+~~~
+
+including:
+
+~~~text
+IDENTITY_PINNED DocumentVersion reference
+document type/family
+issuer claim
+verification snapshot
+temporal-validity snapshot
+subject references
+documentary assertions
+content-artifact references
+facts_observed_at
+~~~
+
+## C. Assertion origin is preserved
+
+Every cross-engine documentary assertion distinguishes:
+
+~~~text
+ISSUER_ASSERTED
+BAOBAB_EXTRACTED
+BAOBAB_GENERATED
+EXTERNAL_NORMALIZED
+~~~
+
+An OCR/extracted value SHALL NOT silently become an issuer assertion.
+
+## D. Evidence offered is not evidence accepted
+
+Trade Docs may state:
+
+~~~text
+these DocumentVersions were offered
+against this Regulations requirement
+~~~
+
+It SHALL NOT state:
+
+~~~text
+the requirement is satisfied
+~~~
+
+Regulations owns requirement-satisfaction evaluation.
+
+## E. Canonical synchronous surfaces
+
+Trade Docs exposes:
+
+~~~text
+POST /v1/regulatory-document-evidence/resolve
+~~~
+
+for exact pinned DocumentVersion fact resolution.
+
+An authorised workflow requests Regulations assessment through:
+
+~~~text
+POST /v1/documentary-evidence/assessments
+~~~
+
+The latter is a command and SHALL NOT be disguised as an event.
+
+## F. Planned Trade Docs event
+
+RTD-06 defines:
+
+~~~text
+com.baobab-platform.documents.regulatory-evidence.offered.v1
+~~~
+
+but does not activate it.
+
+Producer activation remains RTD-07.
+
+## G. Document changes can trigger reassessment
+
+Once activated:
+
+~~~text
+document-version.verification-changed.v2
+document-version.validity-changed.v2
+~~~
+
+may trigger Regulations reassessment where a linked requirement exists.
+
+Those events do not themselves determine regulatory outcome.
+
+## H. Historical replay
+
+A consequential Regulations assessment cites the exact immutable DocumentVersion used.
+
+Trade Docs SHALL NOT replace a historical version reference with the current TradeDocument/version.
+
+## I. Tenant/context consistency
+
+Every tenant-scoped reference returned through RTD-06 must match the tenant established by trusted Control Plane context and authorised caller.
+
+Reference possession alone grants no document access.
+
 
 # 1. Decision
 
@@ -1039,25 +1165,32 @@ A Shared migration ADR/change SHALL explicitly move applicable Customs-workflow 
 
 # 48. Documents Event Stewardship
 
-Shared currently has:
+ADR-SHARED-023 / RTD-07 now assigns:
 
 ```text
 documents
+    status = ACTIVE
+    steward = baobab-trade-docs
 ```
 
-as an ACTIVE event context with:
+and activates `baobab-trade-docs` as canonical producer for the reconciled
+TradeDocument v2 fact family.
+
+This includes TradeDocument, DocumentVersion, ContentArtifact,
+DocumentRelationship, documentary verification and documentary
+temporal-validity facts.
+
+RTD-07 also activates the RTD-06 document-side fact:
 
 ```text
-no assigned steward
+com.baobab-platform.documents.regulatory-evidence.offered.v1
 ```
 
-and existing TradeDocument events remain:
+Trade Docs remains prohibited from publishing Regulations-owned
+requirement-satisfaction or RegulatoryDecision facts.
 
-```text
-PROPOSED
-```
-
-This provides a clean opportunity to assign Trade Docs as producer/steward once its capability contracts are accepted.
+The assignment is semantic producer authority. It does not claim a Trade Docs
+runtime, broker or transactional outbox has already been deployed.
 
 ---
 
@@ -1345,14 +1478,19 @@ Trade Docs SHALL support reassessment workflows rather than assuming previously 
 
 # 62. Regulations Integration
 
-Trade Docs SHALL consume regulatory decisions including:
+Trade Docs SHALL consume Regulations-owned decisions/requirements through
+ADR-SHARED-021 pinned references and ADR-SHARED-022 projections.
+
+Relevant semantics include:
 
 ```text
 classification
 
-document requirements
+DocumentRequirement
 
-permit requirements
+PermitRequirement
+
+EvidenceRequirement
 
 origin requirements
 
@@ -1361,9 +1499,16 @@ SPS requirements
 prohibition/conditionality
 
 applicability
+
+RegulatoryDecision
 ```
 
-where applicable.
+Trade Docs SHALL execute documentary workflow from those requirements without
+becoming their legal authority.
+
+Trade Docs supplies documentary facts back through
+`DocumentEvidenceFactBundle`; Regulations owns the resulting legal
+sufficiency assessment.
 
 ---
 
@@ -1940,37 +2085,63 @@ establish security posture
 
 # 91. Shared Changes Required
 
-The charter requires later Shared work covering:
+The charter's Shared dependencies now stand as:
 
 ```text
 TradeDocument contract evolution
-
-document event producer authority
-
-customs event stewardship migration
-
-customs capability refinement
-
-Trade Docs provider registration
-
-Regulations namespace convergence
+    → completed by RTD-04 / ADR-SHARED-020
 
 cross-engine reference contracts
+    → completed by RTD-05 / ADR-SHARED-021
+
+Regulations ↔ Trade Docs requirement/evidence exchange
+    → completed by RTD-06 / ADR-SHARED-022
+
+documents event producer authority
+    → completed by RTD-07 / ADR-SHARED-023
+
+customs event stewardship migration
+    → still outstanding
+
+customs capability refinement
+    → still outstanding
+
+Trade Docs provider registration
+    → still outstanding
+
+Regulations namespace convergence
+    → still outstanding
 ```
 
 ---
 
 # 92. Existing Event Migration
 
-Existing:
+RTD-07 resolves the TradeDocument producer ambiguity.
+
+The reconciled v2 family is now:
 
 ```text
-com.baobab-platform.documents.trade-document.*
+lifecycle = ACTIVE
+producer = baobab-trade-docs
 ```
 
-events remain `PROPOSED` until producer authority is formally assigned.
+The pre-Trade-Docs v1 family remains:
 
-Existing Customs event semantics associated with Trade SHALL be migrated consumer-first where producer ownership moves.
+```text
+trade-document.issued.v1
+trade-document.verified.v1
+trade-document.rejected.v1
+
+lifecycle = PROPOSED
+producer = none
+```
+
+The v1 family SHALL NOT be implemented as the new runtime target because its
+verification/rejection semantics predate the lifecycle/version decomposition.
+
+Existing Customs event semantics associated with Trade remain separate and
+SHALL be migrated consumer-first only through a dedicated stewardship change.
 
 Historical events SHALL not be rewritten.
 
