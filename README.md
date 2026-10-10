@@ -196,14 +196,14 @@ must not be copied or forked locally.
 
 ## ADR programme
 
-- ADR-TDOC-0001 — Baobab Trade Docs Mission, Authority, Executable Trade
-  Document and Customs Workflow Boundary.
-- ADR-TDOC-0002 — Canonical TradeDocument, Version, Content and Relationship
-  Model.
+See the [full Trade Docs ADR register](docs/adr/README.md). The accepted foundation remains:
 
-Later ADRs are expected to cover dossier, Customs case/declaration workflows,
-authority adapters, verification/trust, transferable records, retention and
-other implementation domains.
+- ADR-TDOC-0001 — mission, authority, executable trade documents and Customs workflows.
+- ADR-TDOC-0002 — canonical TradeDocument, immutable DocumentVersion, content/artifact and relationship model.
+
+**ADR-TDOC-0003 through ADR-TDOC-0015** are the charter's planned architecture decisions, now drafted as **Proposed**. **ADR-TDOC-0016 through ADR-TDOC-0019** are additional Proposed decisions for governed types, transferable records, secure external document exchange and provenance-safe extraction. All include separate implementation gates; neither approval nor implementation is implied by committing the drafts.
+
+[TDOC-TECH-01](docs/architecture/TDOC-TECH-01%20%E2%80%94%20Headless%20Self-Hosted%20Trade%20Document%20Runtime.md) proposes a headless, self-hosted Python 3.14 / Django 6.0 / PostgreSQL 17 baseline, **not** an adopted running service or a required new external application stack.
 
 ## Implementation status
 
