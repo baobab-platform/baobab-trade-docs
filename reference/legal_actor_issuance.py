@@ -119,4 +119,13 @@ def issue_with_legal_actor(
     mandate_id = require_current_document_actor(operation, response, now())
     if provider.check_issuance_ready(operation, mandate_id) is not True:
         raise DocumentIssuanceDenied("document issuer provider not ready")
+    # Provider readiness may involve a remote signer, customs gateway or
+    # documentary evidence verification. Mandates and holds can change while
+    # that I/O is underway. Never issue on the pre-readiness assessment.
+    current = assessor.assess(request)
+    if not isinstance(current, Mapping):
+        raise DocumentIssuanceDenied("current CP document authority unavailable")
+    fresh_mandate = require_current_document_actor(operation, current, now())
+    if fresh_mandate != mandate_id:
+        raise DocumentIssuanceDenied("document issuer mandate changed before issuance")
     return issue()
