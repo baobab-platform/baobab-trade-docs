@@ -73,7 +73,7 @@ class TestDocumentIssuerGate(unittest.TestCase):
             result = issue_with_legal_actor(OP, caller, provider,
                 lambda: attempts.append("issued") or "document/v1", now=lambda: NOW)
             self.assertEqual(result, "document/v1")
-        self.assertEqual((caller.calls, provider.calls, len(attempts)), (2, 2, 2))
+        self.assertEqual((caller.calls, provider.calls, len(attempts)), (4, 2, 2))
 
     def test_deny_revoked_actor_mismatch_provisioning_and_expired(self):
         denied = [
@@ -93,6 +93,36 @@ class TestDocumentIssuerGate(unittest.TestCase):
                         lambda: touched.append("issued"), now=lambda: NOW)
                 self.assertEqual(touched, [])
                 self.assertEqual(provider.calls, 0)
+
+    def test_actor_revoked_or_replaced_while_provider_checks_never_issues(self):
+        class SequenceAssessor:
+            def __init__(self, outcomes):
+                self.outcomes = iter(outcomes)
+                self.calls = 0
+
+            def assess(self, request):
+                self.calls += 1
+                return next(self.outcomes)
+
+        for second in (
+            {**good(), "legal_actor_resolution": {
+                **good()["legal_actor_resolution"], "outcome": "REVOKED_OR_EXPIRED"}},
+            {**good(), "legal_actor_resolution": {
+                **good()["legal_actor_resolution"],
+                "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5aff"}},
+            None,
+        ):
+            with self.subTest(second=second):
+                assessor = SequenceAssessor([good(), second])
+                touched = []
+                with self.assertRaises(DocumentIssuanceDenied):
+                    issue_with_legal_actor(
+                        OP, assessor, Issuer(True),
+                        lambda: touched.append("unsafe-issuance"),
+                        now=lambda: NOW,
+                    )
+                self.assertEqual(touched, [])
+                self.assertEqual(assessor.calls, 2)
 
     def test_provider_deny_stops_issuance_even_when_cp_authorised(self):
         touched = []
