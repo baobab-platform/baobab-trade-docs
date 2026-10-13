@@ -1,0 +1,702 @@
+[
+  {
+    "name": "legal_request/valid",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_request/missing/context_id",
+    "contract": "legal_request",
+    "instance": {
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/missing/role",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/missing/activity",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/missing/market",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/missing/operation_reference",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/context_id",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": [],
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/role",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": [],
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/activity",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": [],
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/market",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": [],
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/capability",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": [],
+      "operation_reference": "synthetic/invoice/123"
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/type/operation_reference",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": []
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_request/invented-grant",
+    "contract": "legal_request",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "role": "INVOICE_ISSUER",
+      "activity": "B2B_INVOICE",
+      "market": "ZA",
+      "capability": "accounting.customer-invoice.post",
+      "operation_reference": "synthetic/invoice/123",
+      "grant_override": true
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/valid",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/missing/context_id",
+    "contract": "legal_response",
+    "instance": {
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/missing/operation_reference",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/missing/provider_permissions_granted",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/missing/legal_actor_resolution",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/type/context_id",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": [],
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/type/operation_reference",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": [],
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/type/provider_permissions_granted",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": [],
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/type/legal_actor_resolution",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": []
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invented-grant",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      },
+      "grant_override": true
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/mandate_id",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "1-1-1-1-1",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/responsible_legal_entity_id",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "lowercase-local",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/evaluated_at",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-02-30T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/valid_until",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/outcome",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "TRUST_ME",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/policy_reference",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/evidence_references",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/invalid/provider_grant",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "outcome": "AUTHORIZED",
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d",
+        "responsible_legal_entity_id": "LE-SYNTHETIC-ZA",
+        "evidence_references": [
+          "synthetic/independent-evidence"
+        ],
+        "valid_until": "2026-10-13T04:00:20Z",
+        "provider_grant": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/denial/NO_APPLICABLE_MANDATE",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "NO_APPLICABLE_MANDATE"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/denied-mandate/NO_APPLICABLE_MANDATE",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "NO_APPLICABLE_MANDATE",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/denial/AMBIGUOUS",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "AMBIGUOUS"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/denied-mandate/AMBIGUOUS",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "AMBIGUOUS",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/denial/REVOKED_OR_EXPIRED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "REVOKED_OR_EXPIRED"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/denied-mandate/REVOKED_OR_EXPIRED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "REVOKED_OR_EXPIRED",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/denial/ACTOR_NOT_VERIFIED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "ACTOR_NOT_VERIFIED"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/denied-mandate/ACTOR_NOT_VERIFIED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "ACTOR_NOT_VERIFIED",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "legal_response/denial/PROVIDER_RESTRICTED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "PROVIDER_RESTRICTED"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "legal_response/denied-mandate/PROVIDER_RESTRICTED",
+    "contract": "legal_response",
+    "instance": {
+      "context_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+      "operation_reference": "synthetic/invoice/123",
+      "provider_permissions_granted": false,
+      "legal_actor_resolution": {
+        "evaluated_at": "2026-10-13T04:00:00Z",
+        "policy_reference": "synthetic/independent-policy",
+        "outcome": "PROVIDER_RESTRICTED",
+        "mandate_id": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6d"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "context_uuid/valid",
+    "contract": "context_uuid",
+    "instance": "0199a1b2-c3d4-7e8f-9a0b-1c2d3e4f5a6b",
+    "valid": true
+  },
+  {
+    "name": "context_uuid/abbreviated",
+    "contract": "context_uuid",
+    "instance": "1-1-1-1-1",
+    "valid": false
+  },
+  {
+    "name": "context_uuid/noncanonical",
+    "contract": "context_uuid",
+    "instance": "ctx-local-fiction",
+    "valid": false
+  },
+  {
+    "name": "context_uuid/wrong-type",
+    "contract": "context_uuid",
+    "instance": [],
+    "valid": false
+  }
+]

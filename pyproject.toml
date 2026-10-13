@@ -1,0 +1,16 @@
+[project]
+name = "baobab-trade-docs-reference"
+version = "0.1.0"
+description = "Reference-only documentary issuer policy; no deployed document runtime"
+requires-python = ">=3.14"
+dependencies = ["jsonschema>=4.26,<5", "referencing>=0.37,<1", "rfc3339-validator>=0.1.4,<1"]
+
+[build-system]
+requires = ["setuptools>=84", "wheel>=0.45"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["reference", "reference.*"]
+
+[tool.setuptools.package-data]
+"reference.shared_contracts" = ["data/provenance.json", "data/**/*.json", "data/**/*.yaml"]

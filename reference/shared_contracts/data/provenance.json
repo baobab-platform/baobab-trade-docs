@@ -1,0 +1,23 @@
+{
+  "repository": "baobab-platform/shared",
+  "commit": "a9c53087d63caa356edf54ec8037ba1713c4827f",
+  "entries": {
+    "legal_request": "https://contracts.baobab-platform.com/organisation/v2/legal-actor-enforcement.schema.json#/$defs/AssessLegalActorRequest",
+    "legal_response": "https://contracts.baobab-platform.com/organisation/v2/legal-actor-enforcement.schema.json#/$defs/AssessLegalActorResponse",
+    "context_uuid": "https://contracts.baobab-platform.com/control-plane/v1/domain.schema.json#/$defs/uuid"
+  },
+  "files": {
+    "authorization/v1/scope-registry.yaml": "62bb4d2a97183d38da67899cddff94bb0657b6df9db96119cff1252702d86066",
+    "control-plane/v1/domain.schema.json": "d310ea065ba9445a27a83d50875a2616514608782345e7bb4413d9d1d69416ee",
+    "cross-engine-reference/v1/domain.schema.json": "646854e3916a5fdd2e2ffde2c6b48a623c9fa1c49475c7bb13c3c6961a5a2c04",
+    "events/v1/envelope.schema.json": "1e7065b903c2732df23e095a4ac5cc3c18c1f553f21c56595669ded08fd6a69f",
+    "identity/v1/workload-registry.yaml": "e20fd4309cd5e955541ee0ccaa14d23388b995fb3506d439c72dfc130136141d",
+    "organisation/v2/domain.schema.json": "749191c7b1831586cd68c8b0e1722bcb82353cd81a92d39b3de447adcad8ba08",
+    "organisation/v2/legal-actor-enforcement.schema.json": "fc0f9d097b8a4ab2d9d7a4a8a87f47fdec208e5f9070b6eb0dd5337baf858681",
+    "organisation/v2/legal-actor-mandate.schema.json": "38510c700e1b448541c65e04a6a5463f8fa275017cae65f3c163495867e8285c",
+    "regulatory-document-exchange/v1/domain.schema.json": "fba1f3629c11a75f229d60ce1147594ab707946ad1616c930e992da1624076f1",
+    "regulatory-document-exchange/v1/events.schema.json": "7bcf17c28afc2189b0ce9538adb16861976bf4cab7f885cc2c4343f52ea654b8",
+    "trade-document/v2/domain.schema.json": "a9491bae7861c252ec98dfe2ddb8a7a345cdd2b119fc37584a2db98340fd53e4",
+    "trade-document/v2/events.schema.json": "f782fde81be9bfd833f47f555c3fc92000c8d386b76ae72ffe583ef181bbd5f3"
+  }
+}

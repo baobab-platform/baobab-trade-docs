@@ -133,7 +133,7 @@ Consumers must distinguish *an available API*, *a provider declaration*, *Shared
 | **TDOC-IMP-07 — Customs adapters** | One jurisdiction-specific authorised interface, signed/secured submission, authority receipt/callback verification and legal hold/release semantics | No generic Customs integration claim |
 | **TDOC-REL-01 — Readiness** | Live deployment security, isolation tests, storage restore, provenance replay, ADR/contract conformance, CP provider registration and EA-09 certification | Production readiness requires external evidence beyond merge/CI |
 
-Each gate uses a bounded PR and evidence. `.baobab/rtd-conformance.yaml` shall remain honest: currently `ARCHITECTURE_ONLY` and `source_paths: [] / test_paths: []`. Update only when *real code and tests exist*, not for this proposal.
+Each gate uses a bounded PR and evidence. `.baobab/rtd-conformance.yaml` shall remain honest: currently `ARCHITECTURE_ONLY`; LA-05F/P0-04A policy reference sources and tests are listed as reference evidence. Update only when *real code and tests exist*, not for this proposal.
 
 ## 9. Initial acceptance journey
 
@@ -160,3 +160,11 @@ This PR delivers **no application source, tests, API runtime, content storage in
 - [Shared TradeDocument v2](https://github.com/baobab-platform/shared/tree/main/contracts/trade-document/v2)
 - [Shared regulatory-document exchange](https://github.com/baobab-platform/shared/tree/main/contracts/regulatory-document-exchange/v1)
 - [Shared cross-engine reference](https://github.com/baobab-platform/shared/tree/main/contracts/cross-engine-reference/v1)
+
+
+## P0-04A follow-up — reference packaging only
+
+The [reference convergence increment](../plans/P0-04A-trade-docs-contract-convergence.md)
+adds an immutable Shared consumer lock, exact packaged schemas and synthetic
+issuer-policy tests. It does not implement TDOC-TECH-01A framework proof or any
+TDOC-IMP runtime gate. The technology choice remains Proposed.

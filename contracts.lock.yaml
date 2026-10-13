@@ -1,0 +1,22 @@
+# P0-04A: exact Shared authority; updates require a reviewed PR.
+schema: baobab-contract-consumer-lock
+version: "1.0"
+source:
+  repository: baobab-platform/shared
+  commit: a9c53087d63caa356edf54ec8037ba1713c4827f
+contracts:
+  - contracts/authorization/v1/scope-registry.yaml
+  - contracts/control-plane/v1/domain.schema.json
+  - contracts/cross-engine-reference/v1/domain.schema.json
+  - contracts/events/v1/envelope.schema.json
+  - contracts/identity/v1/workload-registry.yaml
+  - contracts/organisation/v2/domain.schema.json
+  - contracts/organisation/v2/legal-actor-enforcement.schema.json
+  - contracts/organisation/v2/legal-actor-mandate.schema.json
+  - contracts/regulatory-document-exchange/v1/domain.schema.json
+  - contracts/regulatory-document-exchange/v1/events.schema.json
+  - contracts/trade-document/v2/domain.schema.json
+  - contracts/trade-document/v2/events.schema.json
+policy:
+  updates: explicit_pull_request
+  compatibility: validate_before_merge

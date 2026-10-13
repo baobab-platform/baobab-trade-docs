@@ -1,5 +1,6 @@
 """LA-05F fail-closed documentary issuance acceptance corpus."""
 import unittest
+from copy import deepcopy
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
@@ -62,6 +63,56 @@ class Issuer:
 
 
 class TestDocumentIssuerGate(unittest.TestCase):
+    def test_invalid_private_request_denies_before_assessor_or_provider(self):
+        for change in ({"context_id": "opaque-context"}, {"activity": "x"},
+                       {"market": "1A"}, {"capability": "x"},
+                       {"operation_reference": "x" * 161}):
+            with self.subTest(change=change):
+                assessor, provider, touched = Assessor(good()), Issuer(True), []
+                with self.assertRaises(DocumentIssuanceDenied):
+                    issue_with_legal_actor(replace(OP, **change), assessor, provider,
+                        lambda: touched.append("issued"), now=lambda: NOW)
+                self.assertEqual((assessor.calls, provider.calls, touched), (0, 0, []))
+
+    def test_malformed_response_blocks_both_assessment_passes(self):
+        bad = []
+        for field, value in (("mandate_id", "x" * 36), ("evaluated_at", "2026-02-30T12:00:00Z"),
+                             ("policy_reference", ""), ("evidence_references", ["x" * 501]),
+                             ("invented_signing_grant", True)):
+            response = deepcopy(good())
+            response["legal_actor_resolution"][field] = value
+            bad.append(response)
+        response = good()
+        del response["legal_actor_resolution"]["policy_reference"]
+        bad.append(response)
+        bad.extend([{**good(), "unknown": True}, {**good(), "provider_permissions_granted": 0}])
+        for response in bad:
+            for final in (False, True):
+                with self.subTest(response=response, final=final):
+                    outcomes = iter([good(), response] if final else [response])
+                    class Sequence:
+                        def assess(self, request):
+                            return next(outcomes)
+                    provider, touched = Issuer(True), []
+                    with self.assertRaises(DocumentIssuanceDenied):
+                        issue_with_legal_actor(OP, Sequence(), provider,
+                            lambda: touched.append("issued"), now=lambda: NOW)
+                    self.assertEqual(provider.calls, int(final))
+                    self.assertEqual(touched, [])
+
+    def test_schema_valid_negative_decisions_still_deny_issuance(self):
+        for outcome in ("NO_APPLICABLE_MANDATE", "AMBIGUOUS", "REVOKED_OR_EXPIRED",
+                        "ACTOR_NOT_VERIFIED", "PROVIDER_RESTRICTED"):
+            response = {**good(), "legal_actor_resolution": {
+                "outcome": outcome, "evaluated_at": NOW.isoformat(), "policy_reference": "ADR-BCP-027"}}
+            from reference.shared_contracts import validate_contract
+            validate_contract("legal_response", response)
+            provider, touched = Issuer(True), []
+            with self.assertRaises(DocumentIssuanceDenied):
+                issue_with_legal_actor(OP, Assessor(response), provider,
+                    lambda: touched.append("issued"), now=lambda: NOW)
+            self.assertEqual((provider.calls, touched), (0, []))
+
     def test_private_request_never_supplies_actor_tenant_or_mandate(self):
         request = OP.assessment_request()
         for name in ("tenant_id", "operating_organisation_id", "responsible_legal_entity_id", "mandate_id", "effective_at"):

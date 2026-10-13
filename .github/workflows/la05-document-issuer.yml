@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+# Needed for immutable sibling checkout when github.token lacks access.
+# This read-only token is never passed to reference policy code.
+
 jobs:
   issuance-reference:
     runs-on: ubuntu-26.04
@@ -18,7 +21,40 @@ jobs:
         uses: actions/setup-python@06da6279cdbca41027908073e81a4544dc79c06b # v7.0.0+6
         with:
           python-version: "3.14"
+      - name: Install frozen reference conformance dependencies
+        run: python -m pip install -r requirements-conformance.txt
+      - name: Read Shared lock pin
+        id: pin
+        run: |
+          python - <<'PYTHON'
+          import os, yaml
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("commit=" + yaml.safe_load(open("contracts.lock.yaml"))["source"]["commit"] + "\n")
+          PYTHON
+      - name: Checkout exact Shared owner
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: baobab-platform/shared
+          ref: ${{ steps.pin.outputs.commit }}
+          path: .rtd-shared
+          token: ${{ secrets.SHARED_READ_TOKEN || github.token }}
+          persist-credentials: false
+      - name: Check original bytes and complete inventory
+        run: python scripts/sync_contracts.py --shared-checkout .rtd-shared --check
       - name: Compile issuance PEP reference
         run: python -m py_compile reference/legal_actor_issuance.py tests/test_legal_actor_issuance.py
       - name: Verify fail-closed issuer assessment and non-issue
-        run: python -m unittest discover -s tests -p test_legal_actor_issuance.py -v
+        env:
+          SHARED_CHECKOUT: .rtd-shared
+        run: python -m unittest discover -s tests -v
+      - name: Build and test installed reference wheel in isolation
+        shell: bash
+        run: |
+          python -c "from setuptools.build_meta import build_wheel; build_wheel('dist')"
+          python -m venv --system-site-packages .wheel-probe
+          .wheel-probe/bin/python -m pip install --no-deps dist/*.whl
+          probe="$PWD/scripts/verify_packaged_reference.py"
+          cases="$PWD/tests/fixtures/authority-contract-cases.json"
+          runtime="$PWD/.wheel-probe/bin/python"
+          cd "$RUNNER_TEMP"
+          "$runtime" "$probe" "$cases"

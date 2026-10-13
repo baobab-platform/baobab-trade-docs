@@ -80,3 +80,9 @@ Prove negative scenarios: wrong tenant/issuer, absent requirements, stale eviden
 ## Documentation review and readiness claims
 
 These ADRs are **architecture proposals, not proof of runnable Django code, a storage platform, published events, authenticated Customs filing, national regulatory approval or production readiness**. A later implementation PR must link exact source, tests, Shared version, supported feature matrix, security and privacy review, failure/restore drills and independent Control Plane/EA-09 decision evidence.
+
+
+P0-04A reference contract convergence follows the Accepted foundation and LA-05A
+without changing Proposed ADR statuses. See the
+[implementation and maintenance record](../plans/P0-04A-trade-docs-contract-convergence.md)
+for immutable consumption, reference enforcement, synthetic proof and runtime gaps.

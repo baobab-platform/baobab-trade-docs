@@ -24,3 +24,14 @@ A real Trade Docs implementation MUST:
 **Readiness:** this repository's runtime remains `ARCHITECTURE_ONLY` and has no deployed document issuer, database outbox, signing adapter or regulatory gateway. Reference code and CI are **NOT** product production readiness. Do not advertise `documents.*` provider-supported or issue a real invoice/declaration until the complete versioned issuance path is implemented and staging proven.
 
 No Nabhold, ZuriBeans, Equator or Thamani legal role is inferred. LA-06 founding-group activation will follow PEO-02/03.
+
+
+## P0-04A maintenance update — 13 October 2026
+
+The reference now validates the immutable Shared request/response schema before
+both authority checks and validates stored context UUIDs before CP contact.
+Closed fields, required policy provenance and UUID/date-time assertions precede
+existing issuer, lease and provider checks. Regeneration, installed-wheel proof,
+45 synthetic owner/reference vectors and remaining execution gates are documented
+in [P0-04A](../plans/P0-04A-trade-docs-contract-convergence.md). Reference packaging
+and RTD source evidence do not change ARCHITECTURE_ONLY readiness.

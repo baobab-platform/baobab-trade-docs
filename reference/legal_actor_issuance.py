@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable, Mapping, Protocol, TypeVar
 
+from .shared_contracts import ContractViolation, validate_contract
+
 T = TypeVar("T")
 MAX_LEASE = timedelta(seconds=30)
 
@@ -44,18 +46,29 @@ class IssuanceOperation:
 
     def assessment_request(self) -> dict[str, str]:
         role = LEGAL_ROLE_BY_DOCUMENT.get(self.document_family)
-        if (role is None or not all((
+        if (role is None or not all(isinstance(value, str) and value for value in (
                 self.context_id, self.tenant_id, self.operating_organisation_id,
                 self.subject_reference, self.activity, self.capability,
                 self.operation_reference, self.expected_responsible_legal_entity_id
-            )) or len(self.market) != 2 or not self.market.isascii() or not self.market.isupper()):
+            )) or not isinstance(self.market, str) or len(self.market) != 2 or not self.market.isascii() or not self.market.isupper()):
             raise DocumentIssuanceDenied("unsupported document family or missing scoped legal responsibility")
-        return {
+        request = {
             "context_id": self.context_id, "role": role,
             "activity": self.activity, "market": self.market,
             "capability": self.capability,
             "operation_reference": self.operation_reference,
         }
+        # Validate before contacting CP; never add caller-selected legal actors.
+        _require_wire("context_uuid", self.context_id)
+        _require_wire("legal_request", request)
+        return request
+
+
+def _require_wire(name: str, instance: object) -> None:
+    try:
+        validate_contract(name, instance)
+    except ContractViolation as exc:
+        raise DocumentIssuanceDenied(str(exc)) from None
 
 
 class LegalActorAssessor(Protocol):
@@ -71,6 +84,9 @@ def require_current_document_actor(
     now: datetime,
 ) -> str:
     operation.assessment_request()
+    # Both initial and final passes assert the exact immutable owner schema.
+    # Shape compatibility never replaces operation, issuer or lease binding.
+    _require_wire("legal_response", decision)
     if (decision.get("context_id") != operation.context_id
         or decision.get("operation_reference") != operation.operation_reference
         or decision.get("provider_permissions_granted") is not False):
