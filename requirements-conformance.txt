@@ -1,0 +1,12 @@
+# Frozen synthetic reference/owner-validation toolchain, not service deployment.
+jsonschema==4.26.0
+referencing==0.37.0
+rfc3339-validator==0.1.4
+six==1.17.0
+attrs==26.1.0
+jsonschema-specifications==2025.9.1
+rpds-py==2026.9.1
+typing-extensions==4.16.0
+PyYAML==6.0.3
+setuptools==84.0.0
+wheel==0.48.0

@@ -7,7 +7,7 @@ repository:
   maturity: ARCHITECTURE_ONLY
 shared:
   repository: baobab-platform/shared
-  commit: "6e0267572edb533ce781b2a7fc6863918ca2d62e"
+  commit: "a9c53087d63caa356edf54ec8037ba1713c4827f"
   required_contracts:
     - contracts/control-plane/v1/domain.schema.json
     - contracts/cross-engine-reference/v1/domain.schema.json
@@ -20,5 +20,10 @@ evidence:
   adr_paths:
     - docs/adr/ADR-TDOC-0001 — Baobab Trade Docs Mission, Authority, Executable Trade Document and Customs Workflow Boundary.md
     - docs/adr/ADR-TDOC-0002 — Canonical TradeDocument, Version, Content and Relationship Model.md
-  source_paths: []
-  test_paths: []
+  # Policy/schema reference evidence only; no deployed engine runtime.
+  source_paths:
+    - reference/legal_actor_issuance.py
+    - reference/shared_contracts/__init__.py
+  test_paths:
+    - tests/test_legal_actor_issuance.py
+    - tests/test_contract_conformance.py

@@ -8,8 +8,7 @@ Canonical schemas live in:
 baobab-platform/shared
 ```
 
-and must be consumed through the platform contract-lock/pinning mechanism when
-runtime implementation begins.
+and are now consumed through the immutable reference contract lock below.
 
 ## RTD-04 canonical document contract
 
@@ -157,14 +156,20 @@ dossier/CustomsCase/CustomsDeclaration/authority-response contracts.
 Prototype types may exist behind local ports only if they are clearly
 non-canonical and replaceable.
 
-## Enforcement location
+## Enforcement location — P0-04A reference
 
-There is no runtime code yet.
+Shared remains canonical authority. `contracts.lock.yaml` pins all reference and
+RTD architectural dependencies at `a9c53087d63caa356edf54ec8037ba1713c4827f`.
+Byte-identical generated consumption resources live under
+`reference/shared_contracts/data`; never edit these snapshots or define a local
+canonical document, legal-actor or regulatory schema here.
 
-When implementation starts, this file must be extended to identify:
+Regenerate with `python scripts/sync_contracts.py --shared-checkout /path/to/shared`
+after an explicit lock review; CI uses `--check` to verify original bytes,
+closure, hash provenance and complete inventory (including stale files).
+Three executable entries cover the currently implemented reference boundary:
+legal request, legal response and stored context UUID. Other pinned document,
+exchange and event schemas record architectural dependencies; bundling them
+does not implement those APIs, events, publishers or capability providers.
 
-- the exact pinned Shared revision/tag;
-- generated or hand-maintained binding location;
-- schema validation entry points;
-- event producer/consumer adapters;
-- conformance tests proving local types match Shared.
+See [P0-04A maintenance notes](../docs/plans/P0-04A-trade-docs-contract-convergence.md).
