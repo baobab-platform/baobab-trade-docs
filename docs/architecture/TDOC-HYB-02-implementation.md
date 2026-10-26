@@ -1,26 +1,36 @@
-# TDOC-HYB-02 — Deterministic kernel, Shared v2 conformance and ABI evidence
+# TDOC-HYB-02 — Deterministic Rust domain kernel and Shared v2 qualification
 
-**Status: PARTIAL — not accepted or merged.** Governing baseline: Accepted TDOC-TECH-02, Shared owner commit `a9c53087d63caa356edf54ec8037ba1713c4827f`. RTD-10 remains `ARCHITECTURE_ONLY`.
+**Status:** IMPLEMENTED IN DRAFT PR #19; **NOT ACCEPTED** until final-head CI and evidence pass.
+**Authority:** Accepted TDOC-TECH-02, Shared owner commit `a9c53087d63caa356edf54ec8037ba1713c4827f`, RTD-10. Conformance maturity stays `ARCHITECTURE_ONLY`.
 
-## Evidence delivered in PR #19
+## Implementation and boundaries
 
-| Layer | Implemented | Qualification limitation |
+| Gate | Executable implementation | Qualification claim |
 |---|---|---|
-| Rust PyO3 | Pure exact-byte SHA-256 (16 MiB maximum), identifier grammars, separate state axes, conservative lifecycle candidate check | No authorisation, legal/regulatory assessment or database |
-| Differential vectors | Python regex/enums/hashlib independently check Rust; malformed and boundary cases | Field-level, not full nested semantic parity |
-| Schema inventory | Every definition in locked trade-document/v2 domain/events, cross-engine-reference, regulatory-document-exchange and event envelope is schema-compiled; owner bytes compared with packaged SHA-256 pins | Compiling and resolving definitions is not proof of complete valid/invalid instance coverage |
-| Adversarial fuzz | 3,000 seeded mutation cases and binary digest vectors with stable seeds | Not libFuzzer/AFL coverage-guided fuzz; no corpus minimisation or sanitiser report |
-| ABI smoke | CPython 3.14 native extension import, architecture whitelist, free-threaded rejection, export assertions | Only architectures actually executed in CI are qualified |
+| Deterministic kernel | Pure Rust bounded identifier and type checks, state axes, conservative transition candidates, exact-byte SHA-256; PyO3 Python 3.14 wheel | Structural validation only, never authorisation |
+| Locked Shared v2 | Owner-byte/digest parity; every `$defs` definition in Trade Docs v2 domain/events, cross-engine references, regulatory exchange domain/events and event envelope is compiled/resolved | Schema inventory, not mathematical completeness |
+| Differential vectors | Python regex/enums/hashlib independent native checks, plus a deterministic malformed JSON shape matrix across every Shared definition | Owner/packaged validator parity; complete semantic positive/negative coverage is still an open requirement |
+| Adversarial mutation | Seeded 3,000-case Python/PyO3 tests; separate libFuzzer `identifier` target with native Rust oracle, 60-second bounded campaign, retained corpus/crashes | Coverage-guided fuzzing for identifier core; not all document parsers or Python FFI functions |
+| ABI | Matrix `ubuntu-24.04` (x86_64) and `ubuntu-24.04-arm` (aarch64), CPython 3.14 wheel tag and architecture assertion, native import and DB-backed tests | Qualified only when both matrix jobs pass and artifacts are retained |
 
-## Non-negotiable remaining exit proof
+## CI commands
 
-1. Produce owner-derived positive and negative nested instances for **every** Shared v2 definition and conditional; test Python packaged validator against independent owner validator, including cross-engine references and event payloads. Keep provenance and contract revision pinned. Never substitute Rust ad hoc validation for the normative JSON Schema engine.
-2. Execute coverage-guided fuzzing with persisted seeds/crash corpus, panic/resource-bound negative tests and a documented fuzz-duration budget.
-3. Run an explicit native-wheel matrix on Linux x86_64 **and** aarch64 for CPython 3.14 with wheel-tag inspection and import checks, using immutable runners/images. Report skipped architecture as unqualified.
-4. Obtain all final-head CI, security, no-cache DevContainer and RTD-10 checks; record run IDs, artifact hashes and independent review.
+```sh
+(cd rust-kernel && cargo test --locked)
+(cd rust-kernel && maturin build --locked --release --interpreter ../.venv/bin/python --out ../dist-wheels)
+(cd runtime && ../.venv/bin/python manage.py test tests -v2)
+(cd rust-kernel && cargo +nightly-2026-10-20 fuzz run identifier -- -max_total_time=60 -timeout=5 -rss_limit_mb=1024)
+```
 
-The kernel's `transition_candidate` is a **structural hint only**, not an authoritative state-machine policy. Lifecycle policy must be accepted separately and fenced by IAM/CP in HYB-04. No issuing endpoint, artifact custody, outbox, Customs submission or regulatory sufficiency is created by this gate.
+The `pyo3/extension-module` feature is enabled for the maturin wheel only; Rust test and libFuzzer binaries must link to a Python interpreter normally. The fuzz campaign is deliberately limited in time and memory; it does not claim to establish the absence of all memory-safety defects.
 
-## Conformance execution
+## Acceptance checklist
 
-Existing RTD-10 tests execute the owner-byte comparison and schema inventory in the reference suite. HYB-01's native-wheel runtime test suite executes the PyO3 differential, seeded adversarial mutation and ABI smoke checks. CI job logs, not this document, determine the actual pass/fail result.
+- [ ] All mandatory final-head CI including both native ABI architectures, clean DevContainer, RustSec, Python vulnerability audit, RTD-10, LA-05F and action-pinning checks green.
+- [ ] Coverage-guided libFuzzer job green with retained crash/corpus evidence.
+- [ ] No drift from Shared v2 owner SHA and packaged contract digests.
+- [ ] Independently reviewed **valid and invalid** nested document, version, artifact, relationship and event vectors with owner-origin provenance, beyond schema compilation and shape probes.
+- [ ] Fuzz all consequential Rust parser/validator entry points (not just identifiers), and retain evidence for each target.
+- [ ] Review and record wheel tags, architecture evidence and free-threaded/abi3 exclusion.
+
+**Conservative release rule:** until every item is evidenced, HYB-02 is PARTIAL. HYB-03 implementation is not authorised by this PR. No issuer activation, IAM/CP authority fence, artifact custody, outbox, Customs action or documentary legal sufficiency is provided.
