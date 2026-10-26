@@ -81,6 +81,13 @@ fn validate_axis(axis: &str, value: &str) -> PyResult<bool> {
     })
 }
 
+/// Pure lifecycle candidate for native property/fuzz tests; never authorises issuance.
+pub fn transition_wire(from: &str, to: &str) -> Option<bool> {
+    let source = Lifecycle::from_wire(from)?;
+    let target = Lifecycle::from_wire(to)?;
+    Some(source.can_transition_to(target))
+}
+
 /// A conservative *candidate* lifecycle guard, not an authorisation decision.
 /// This deliberately refuses transitions whose governing documentary policy
 /// has not yet been accepted/implemented. Verification/validity are separate.
@@ -88,9 +95,7 @@ fn validate_axis(axis: &str, value: &str) -> PyResult<bool> {
 fn transition_candidate(from: &str, to: &str) -> PyResult<bool> {
     bounded(from)?; bounded(to)?;
     if !STATES.contains(&from) || !STATES.contains(&to) { return Err(deny("TDOC_UNKNOWN_LIFECYCLE_STATE")); }
-    let source = Lifecycle::from_wire(from).ok_or_else(|| deny("TDOC_UNKNOWN_LIFECYCLE_STATE"))?;
-    let target = Lifecycle::from_wire(to).ok_or_else(|| deny("TDOC_UNKNOWN_LIFECYCLE_STATE"))?;
-    Ok(source.can_transition_to(target))
+    transition_wire(from, to).ok_or_else(|| deny("TDOC_UNKNOWN_LIFECYCLE_STATE"))
 }
 
 /// SHA-256 over EXACT supplied bytes. No implicit JSON normalization, text
