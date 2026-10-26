@@ -12,7 +12,7 @@ class NativeAbiTests(unittest.TestCase):
   self.assertIn(platform.machine().lower(), {"x86_64","aarch64","amd64","arm64"})
   native_functions = [kernel.sha256_hex, kernel.validate_identifier, kernel.validate_axis, kernel.transition_candidate]
   self.assertTrue(all(callable(fn) for fn in native_functions))
-  native_modules = {getattr(fn, "__module__", "") for fn in native_functions}
+  native_modules = {getattr(fn, "__module__", "") for fn in native_functions if getattr(fn, "__module__", "")}
   self.assertTrue(native_modules, "Native PyO3 exports must be present")
   import importlib
   self.assertTrue(any(any(str(getattr(importlib.import_module(name), "__file__", "")).endswith(suffix) for suffix in importlib.machinery.EXTENSION_SUFFIXES) for name in native_modules), native_modules)
