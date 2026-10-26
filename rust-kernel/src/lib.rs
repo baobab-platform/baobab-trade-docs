@@ -15,12 +15,12 @@ fn bounded(value: &str) -> PyResult<()> {
     if value.len() > MAX_INPUT { Err(PyValueError::new_err("TDOC_INPUT_TOO_LARGE")) } else { Ok(()) }
 }
 fn deny(code: &'static str) -> PyErr { PyValueError::new_err(code) }
-fn check_id(value: &str, prefix: &str, min: usize) -> bool {
+pub(crate) fn check_id(value: &str, prefix: &str, min: usize) -> bool {
     let bytes = value.as_bytes();
     (min..=63).contains(&bytes.len()) && value.starts_with(prefix)
         && bytes[prefix.len()..].iter().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
 }
-fn type_code(value: &str) -> bool {
+pub(crate) fn type_code(value: &str) -> bool {
     let b = value.as_bytes();
     (2..=64).contains(&b.len()) && b[0].is_ascii_uppercase()
         && b[1..].iter().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || *c == b'_')
