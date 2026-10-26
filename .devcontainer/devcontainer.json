@@ -1,0 +1,15 @@
+{
+  "name": "Baobab Trade Docs HYB-01",
+  "dockerComposeFile": "compose.yml",
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/baobab-trade-docs",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [5432],
+  "remoteUser": "vscode",
+  "postCreateCommand": "python --version && rustc --version && cargo --version && pg_isready -h postgres -U tdoc",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "rust-lang.rust-analyzer"]
+    }
+  }
+}
