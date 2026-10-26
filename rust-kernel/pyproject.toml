@@ -10,3 +10,4 @@ requires-python = ">=3.14,<3.15"
 [tool.maturin]
 bindings = "pyo3"
 module-name = "baobab_tdoc_kernel"
+features = ["extension-module"]
