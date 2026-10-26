@@ -1,0 +1,74 @@
+name: TDOC-HYB-01 Hybrid Runtime (development only)
+on:
+  pull_request:
+    paths:
+      - 'runtime/**'
+      - 'rust-kernel/**'
+      - '.devcontainer/**'
+      - '.github/workflows/tdoc-hyb-01-runtime.yml'
+      - 'docs/architecture/TDOC-HYB-01-implementation.md'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/**'
+      - 'rust-kernel/**'
+      - '.devcontainer/**'
+      - '.github/workflows/tdoc-hyb-01-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hybrid-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: tdoc
+          POSTGRES_USER: tdoc
+          POSTGRES_PASSWORD: local-dev-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tdoc -d tdoc"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_DB: tdoc
+      POSTGRES_USER: tdoc
+      POSTGRES_PASSWORD: local-dev-only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.90.0'
+      - name: Verify versions
+        run: python --version && rustc --version && cargo --version
+      - name: Build and unit-test native kernel
+        working-directory: rust-kernel
+        run: |
+          cargo test
+          python -m pip install "maturin>=1.9,<2"
+          maturin build --release --interpreter python --out ../dist-wheels
+      - name: Install exact native build and Django runtime
+        run: |
+          python -m pip install --no-index --find-links dist-wheels baobab-tdoc-kernel==0.1.0
+          python -m pip install "Django>=6.0,<6.1" "psycopg[binary]>=3.2,<3.4"
+          python -m pip check
+      - name: Runtime and database gate
+        working-directory: runtime
+        run: |
+          python manage.py check
+          python manage.py migrate --noinput
+          python manage.py test tests --verbosity 2
+          python -c "from tdoc_runtime.kernel import kernel_probe; assert kernel_probe() == 'rust-pyo3-ok'"
+      - name: No activated issuer
+        run: |
+          grep -F 'provider_active": False' runtime/tdoc_runtime/urls.py
+          grep -F 'ARCHITECTURE_ONLY' .baobab/rtd-conformance.yaml
