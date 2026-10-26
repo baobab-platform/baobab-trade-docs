@@ -1,0 +1,12 @@
+[build-system]
+requires = ["maturin>=1.9,<2"]
+build-backend = "maturin"
+
+[project]
+name = "baobab-tdoc-kernel"
+version = "0.1.0"
+requires-python = ">=3.14,<3.15"
+
+[tool.maturin]
+bindings = "pyo3"
+module-name = "baobab_tdoc_kernel"
