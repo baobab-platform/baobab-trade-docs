@@ -94,7 +94,7 @@ jobs:
       - name: Execute native bootstrap in clean container
         run: |
           docker compose -f .devcontainer/compose.yml up -d --wait
-          docker compose -f .devcontainer/compose.yml exec -T workspace bash scripts/hyb01-bootstrap.sh
+          docker compose -f .devcontainer/compose.yml exec -T -w /workspaces/baobab-trade-docs workspace bash scripts/hyb01-bootstrap.sh
       - name: Cleanup disposable topology
         if: always()
         run: docker compose -f .devcontainer/compose.yml down -v --remove-orphans
