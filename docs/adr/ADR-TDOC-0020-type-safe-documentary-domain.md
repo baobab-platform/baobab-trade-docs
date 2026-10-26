@@ -1,6 +1,6 @@
 # ADR-TDOC-0020 — Type-Safe Documentary Domain Modelling and Invariant Enforcement
 
-**Status:** Proposed — pending architecture-owner acceptance
+**Status:** Accepted — architecture-owner approval on 2026-10-26
 **Scope:** TDOC-HYB-02, HYB-03 and HYB-04
 **Supersedes:** None
 **References:** Accepted TDOC-TECH-02; Shared trade-document/v2 and regulatory contracts at their locked owner revision; Accepted Shared EA v2.3; RTD-10.
@@ -30,4 +30,4 @@ The selected Python 3.14/Django 6.0/Rust/PyO3/PostgreSQL 17 composition does not
 - **Strings plus schema checks alone:** allows invalid internal combinations and non-exhaustive handling.
 
 ## Adoption
-This ADR is Proposed. Do not mark Accepted or treat HYB-02/03/04 as qualified without architecture-owner approval and the applicable connected evidence. Engineering may implement reversible internal primitives under existing Accepted TDOC-TECH-02, but must not silently widen authority.
+This ADR is Accepted by the architecture owner on 2026-10-26. Acceptance authorises its architectural requirements and implementation sequencing; it does **not** qualify HYB-02/03/04, activate an issuer, or waive connected acceptance, security, ABI, conformance, or authority evidence. No widening of CP/IAM/Regulations authority is permitted.
