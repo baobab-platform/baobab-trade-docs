@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - runtime/requirements.in
+      - rust-kernel/Cargo.toml
       - .github/workflows/tdoc-hyb-01-lockgen.yml
 permissions:
   contents: read
