@@ -67,7 +67,7 @@ class SharedSchemaInventoryTests(unittest.TestCase):
   ]
   for path in TARGETS:
    schema = self.schemas[path]
-   for name in schema["$defs"]:
+   for name in schema.get("$defs", {}):
     ref = schema["$id"]+"#/$defs/"+name.replace("~","~0").replace("/","~1")
     owner_schema = json.loads(subprocess.check_output([
      "git","-C",str(SHARED),"show",f"{PROVENANCE['commit']}:contracts/{path}"
