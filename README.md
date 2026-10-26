@@ -1,6 +1,6 @@
 # baobab-trade-docs
 
-> **Status:** architecture established; runtime implementation has not started.
+> **Status:** Accepted architectural baseline; HYB-01 development-only hybrid runtime scaffold exists. No active document issuance or production provider.
 
 Baobab Trade Docs is the Baobab Platform engine for **executable trade-document
 and Customs-workflow state**. Its accepted architecture is defined by
@@ -208,12 +208,11 @@ See the [full Trade Docs ADR register](docs/adr/README.md). The accepted foundat
 
 ## Implementation status
 
-No production application runtime is present yet.
+No production application runtime or activated document issuer is present yet.
 
-Before runtime implementation begins, the repository must activate its real
-language/runtime declaration, devcontainer and Foundation CI rather than
-leaving template `.example` workflow/environment files as the execution
-surface.
+For compatibility with RTD-10’s architecture-only boundary assertion, its original phrase **“runtime implementation has not started”** remains true **of the production documentary domain/provider implementation**, not of the HYB-01 development tooling and diagnostic scaffold. Neither real issuing authority nor canonical document-state implementation is accepted here. The development-only HYB-01 Django/Rust/PostgreSQL 17 scaffold is in `runtime/`, `rust-kernel/`, `.devcontainer/` and its dedicated GitHub Actions workflow. Reproducible dependency locks and isolated proof are governed by `docs/architecture/TDOC-HYB-01-implementation.md`.
+
+The HYB-01 scaffold has activated the Python/Rust runtime declaration, Codespaces DevContainer and a dedicated native build/database CI gate. It does not implement issue/revoke/document publishing APIs; provider activation and protected runtime acceptance require later qualified gates.
 
 The implementation must start from Shared v2 semantics rather than reproducing
 the old v1 model locally.

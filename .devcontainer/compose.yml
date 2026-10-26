@@ -15,7 +15,7 @@ services:
       postgres:
         condition: service_healthy
   postgres:
-    image: postgres:17
+    image: postgres:17.11-bookworm@sha256:858bb5e98eed02eb8cafbcdc007f9a65d1b613972028944a8ec2133ccaf80d27
     environment:
       POSTGRES_DB: tdoc
       POSTGRES_USER: tdoc

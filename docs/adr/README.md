@@ -1,7 +1,7 @@
 # Baobab Trade Docs — Architecture Decision Register
 
 **Repository:** `baobab-platform/baobab-trade-docs`  
-**Reviewed:** 2026-10-08  
+**Reviewed:** 2026-10-26  
 **Implementation maturity:** `ARCHITECTURE_ONLY` — runtime/application source paths and implementation test paths are not yet present in `.baobab/rtd-conformance.yaml`.
 
 ## Normative precedence
@@ -9,7 +9,7 @@
 1. **Accepted ADR-TDOC-0001**: engine mission, document/case authority and the Regulations–Trade Docs–TMS–ERP boundary.
 2. **Accepted ADR-TDOC-0002**: canonical TradeDocument, immutable DocumentVersion, DocumentContent/ContentArtifact, typed subjects, provenance, verification, status and relationship models.
 3. **Accepted Shared ADR-SHARED-019..024 and 026**, according to their respective scope: Regulations–Trade Docs–Pulse ownership, `trade-document/v2` RTD-04, `cross-engine-reference/v1` RTD-05, documentary evidence/assessment RTD-06, `documents` producer/context activation RTD-07, Regulations event authority RTD-08, cross-repository conformance RTD-10.
-4. [TDOC-TECH-01](../architecture/TDOC-TECH-01%20%E2%80%94%20Headless%20Self-Hosted%20Trade%20Document%20Runtime.md): separate **Proposed** self-hosted headless Python 3.14/Django 6.0/PostgreSQL 17 technology direction. This documentation was merged but not thereby accepted as production evidence.
+4. [**TDOC-TECH-02 (Accepted)**](../architecture/TDOC-TECH-02.md): canonical hybrid runtime technology baseline Python 3.14/Django 6.0/Rust-PyO3/PostgreSQL 17. It supersedes the technology-selection portions of [TDOC-TECH-01 (historical Proposed)](../architecture/TDOC-TECH-01%20%E2%80%94%20Headless%20Self-Hosted%20Trade%20Document%20Runtime.md). Neither decision is production evidence.
 5. **Proposed ADR-TDOC-0003..0019** specify executable design intent and distinct gate evidence, but **do not override** accepted ADRs or Shared wire contracts.
 
 An engine-local ADR **does not** create canonical Shared keys, events, cross-engine types, Customs authority, customer legal permissions or an active Control Plane provider. Formal acceptance must be recorded deliberately, not inferred from PR merge.
@@ -44,7 +44,7 @@ An engine-local ADR **does not** create canonical Shared keys, events, cross-eng
 
 | Programme phase | Relevant ADRs | Measurable output |
 |---|---|---|
-| 0. Foundation / trusted service | TDOC-TECH-01, 0009, 0011, 0012, 0013 | Reproducible self-hosted runtime, verified IAM/CP context, protected PostgreSQL/object storage and durable API |
+| 0. Foundation / trusted service | **Accepted TDOC-TECH-02**, 0009, 0011, 0012, 0013 | Reproducible self-hosted runtime, verified IAM/CP context, protected PostgreSQL/object storage and durable API |
 | 1. Canonical document | Accepted 0002 + proposed 0007, 0008, 0016 | Immutable versions, issuer/verification facts, governed document types, source provenance |
 | 2. Dossier and extraction | 0003, 0019 | Pinned documentary requirements, dossiers, provenance-safe ingestion and RTD-06 evidence resolution |
 | 3. Customs operations | 0004, 0005, 0006, 0010 | CustomsCase and declarations, national adapter, transit and standards-versioned messages |
