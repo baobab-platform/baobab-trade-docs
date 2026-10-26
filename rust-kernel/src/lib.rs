@@ -5,6 +5,34 @@ use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use sha2::{Digest, Sha256};
 
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Lifecycle {
+    Draft, Issued, Superseded, Voided, Withdrawn, Archived,
+}
+impl Lifecycle {
+    fn from_wire(value: &str) -> Option<Self> {
+        match value {
+            "DRAFT" => Some(Self::Draft),
+            "ISSUED" => Some(Self::Issued),
+            "SUPERSEDED" => Some(Self::Superseded),
+            "VOIDED" => Some(Self::Voided),
+            "WITHDRAWN" => Some(Self::Withdrawn),
+            "ARCHIVED" => Some(Self::Archived),
+            _ => None,
+        }
+    }
+    fn can_transition_to(self, next: Self) -> bool {
+        match (self, next) {
+            (Self::Draft, Self::Issued | Self::Voided) => true,
+            (Self::Issued, Self::Superseded | Self::Voided | Self::Withdrawn) => true,
+            (Self::Superseded | Self::Voided | Self::Withdrawn, Self::Archived) => true,
+            (Self::Archived, _) => false,
+            _ => false,
+        }
+    }
+}
+
 const MAX_INPUT: usize = 4096;
 const STATES: &[&str] = &["DRAFT", "ISSUED", "SUPERSEDED", "VOIDED", "WITHDRAWN", "ARCHIVED"];
 const VERIFY: &[&str] = &["UNVERIFIED", "PENDING", "VERIFIED", "FAILED", "DISPUTED", "UNKNOWN"];
@@ -60,12 +88,9 @@ fn validate_axis(axis: &str, value: &str) -> PyResult<bool> {
 fn transition_candidate(from: &str, to: &str) -> PyResult<bool> {
     bounded(from)?; bounded(to)?;
     if !STATES.contains(&from) || !STATES.contains(&to) { return Err(deny("TDOC_UNKNOWN_LIFECYCLE_STATE")); }
-    Ok(matches!((from, to),
-        ("DRAFT", "ISSUED") | ("DRAFT", "VOIDED") |
-        ("ISSUED", "SUPERSEDED") | ("ISSUED", "VOIDED") |
-        ("ISSUED", "WITHDRAWN") |
-        ("SUPERSEDED", "ARCHIVED") | ("VOIDED", "ARCHIVED") |
-        ("WITHDRAWN", "ARCHIVED")))
+    let source = Lifecycle::from_wire(from).ok_or_else(|| deny("TDOC_UNKNOWN_LIFECYCLE_STATE"))?;
+    let target = Lifecycle::from_wire(to).ok_or_else(|| deny("TDOC_UNKNOWN_LIFECYCLE_STATE"))?;
+    Ok(source.can_transition_to(target))
 }
 
 /// SHA-256 over EXACT supplied bytes. No implicit JSON normalization, text
