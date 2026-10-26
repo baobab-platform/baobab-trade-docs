@@ -1,0 +1,4 @@
+# HYB-01 Python runtime and build tools. Exact hashes are in requirements.lock.
+Django>=6.0,<6.1
+psycopg[binary]>=3.2,<3.4
+maturin>=1.9,<2
