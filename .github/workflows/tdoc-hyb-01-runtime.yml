@@ -57,8 +57,9 @@ jobs:
           grep -Eq '^FROM .*@sha256:[0-9a-f]{64}$' .devcontainer/Dockerfile
           grep -Eq 'image: postgres:17\.[0-9]+-bookworm@sha256:[0-9a-f]{64}' .devcontainer/compose.yml
           python -m pip install uv==0.13.5
-          uv pip compile --python-version 3.14 --generate-hashes --output-file /tmp/requirements.lock runtime/requirements.in
-          diff -u runtime/requirements.lock /tmp/requirements.lock
+          cp runtime/requirements.lock /tmp/requirements.lock
+          uv pip compile --python-version 3.14 --generate-hashes --output-file runtime/requirements.lock runtime/requirements.in
+          diff -u /tmp/requirements.lock runtime/requirements.lock
           (cd rust-kernel && cargo metadata --locked --format-version 1 --no-deps > /dev/null)
       - name: Install hash-locked Python environment
         run: |
