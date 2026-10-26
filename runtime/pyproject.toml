@@ -1,0 +1,13 @@
+[project]
+name = "baobab-trade-docs-runtime"
+version = "0.1.0"
+description = "TDOC-HYB-01 scaffold; NOT an activated Trade Docs provider"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+  "Django>=6.0,<6.1",
+  "psycopg[binary]>=3.2,<3.4",
+  "baobab-tdoc-kernel==0.1.0",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tdoc_runtime.settings"

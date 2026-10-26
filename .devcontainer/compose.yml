@@ -1,0 +1,31 @@
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspaces/baobab-trade-docs:cached
+    command: sleep infinity
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: tdoc
+      POSTGRES_USER: tdoc
+      POSTGRES_PASSWORD: local-dev-only
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: tdoc
+      POSTGRES_USER: tdoc
+      POSTGRES_PASSWORD: local-dev-only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tdoc -d tdoc"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - tdoc-postgres:/var/lib/postgresql/data
+volumes:
+  tdoc-postgres:

@@ -1,0 +1,13 @@
+[package]
+name = "baobab-tdoc-kernel"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+
+[lib]
+name = "baobab_tdoc_kernel"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "=0.27.1", features = ["extension-module"] }
+sha2 = "=0.10.9"
