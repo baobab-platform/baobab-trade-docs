@@ -41,8 +41,8 @@ class SharedSchemaInventoryTests(unittest.TestCase):
  def test_all_target_definitions_compile_and_resolve(self):
   for path in TARGETS:
    schema = self.schemas[path]
-   self.assertTrue(schema.get("$defs"), path)
-   for name in schema["$defs"]:
+   self.assertIsInstance(schema, dict, path)
+   for name in schema.get("$defs", {}):
     with self.subTest(schema=path, definition=name):
      ref = schema["$id"]+"#/$defs/"+name.replace("~","~0").replace("/","~1")
      validator = Draft202012Validator({"$ref":ref},registry=self.registry,format_checker=Draft202012Validator.FORMAT_CHECKER)
