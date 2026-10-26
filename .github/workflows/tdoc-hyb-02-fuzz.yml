@@ -1,0 +1,37 @@
+name: TDOC-HYB-02 Coverage-Guided Fuzz
+on:
+  pull_request:
+    paths:
+      - 'rust-kernel/**'
+      - '.github/workflows/tdoc-hyb-02-fuzz.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'rust-kernel/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  libfuzzer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+      - name: Install pinned nightly and cargo-fuzz
+        run: |
+          rustup toolchain install nightly-2026-10-20 --profile minimal --component rust-src
+          cargo +1.90.0 install cargo-fuzz --version 0.13.1 --locked
+      - name: Run coverage-guided native fuzz target
+        working-directory: rust-kernel
+        run: |
+          mkdir -p fuzz/artifacts/identifier
+          cargo +nightly-2026-10-20 fuzz run identifier -- -max_total_time=60 -timeout=5 -rss_limit_mb=1024 -artifact_prefix=fuzz/artifacts/identifier/
+      - name: Retain crashes and corpus
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: hyb02-fuzz-evidence
+          path: |
+            rust-kernel/fuzz/artifacts/
+            rust-kernel/fuzz/corpus/
+          retention-days: 30
