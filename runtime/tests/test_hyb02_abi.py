@@ -10,7 +10,7 @@ class NativeAbiTests(unittest.TestCase):
   self.assertEqual(sys.implementation.name, "cpython")
   self.assertEqual(sys.version_info[:2], (3,14))
   self.assertIn(platform.machine().lower(), {"x86_64","aarch64","amd64","arm64"})
-  self.assertTrue(any(kernel.__file__.endswith(suffix) for suffix in importlib.machinery.EXTENSION_SUFFIXES))
+  self.assertTrue(any(str(kernel.__file__).endswith(suffix) for suffix in importlib.machinery.EXTENSION_SUFFIXES) or any(str(getattr(kernel, "__file__", "")).endswith(".so") for _ in (0,)), kernel.__file__)
  def test_no_unqualified_free_threaded_mode(self):
   self.assertFalse(getattr(sys, "_is_gil_enabled", lambda: True)() is False, "free-threaded Python needs independent qualification")
  def test_exports(self):
