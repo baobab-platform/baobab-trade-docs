@@ -21,7 +21,7 @@ DOC = "tdoc_abc"
 VERSION = "tdocv_abc"
 ARTIFACT = "tdoca_abc"
 REL = "tdocr_abc"
-TENANT = "00000000-0000-4000-8000-000000000001"
+TENANT = "tn_synthetic1"
 PROVENANCE_RECORD = {"source_kind": "BAOBAB_GENERATED", "recorded_at": STAMP}
 ARTIFACT_RECORD = {
     "artifact_id": ARTIFACT, "document_version_id": VERSION,
