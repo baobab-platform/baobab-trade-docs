@@ -23,7 +23,11 @@ permissions:
 
 jobs:
   hybrid-runtime:
-    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 25
     services:
       postgres:
@@ -72,6 +76,19 @@ jobs:
           cargo test --locked
           ../.venv/bin/maturin build --locked --release --interpreter ../.venv/bin/python --out ../dist-wheels
           uv pip install --python ../.venv/bin/python --no-index --no-deps --find-links ../dist-wheels baobab-tdoc-kernel==0.1.0
+      - name: Inspect native CPython 3.14 wheel tag and ABI
+        run: |
+          .venv/bin/python - <<'PY'
+          import pathlib, platform, sys, zipfile
+          wheels = list(pathlib.Path('dist-wheels').glob('*.whl'))
+          assert len(wheels) == 1, wheels
+          name = wheels[0].name
+          assert 'cp314' in name and 'abi3' not in name, name
+          arch = platform.machine().lower()
+          assert (arch in ('x86_64', 'amd64') and 'x86_64' in name) or (arch in ('aarch64','arm64') and 'aarch64' in name), (arch, name)
+          assert sys.version_info[:2] == (3,14)
+          print('ABI EVIDENCE', platform.platform(), name)
+          PY
       - name: Django and PostgreSQL 17 evidence
         working-directory: runtime
         run: |
