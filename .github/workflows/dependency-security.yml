@@ -1,0 +1,53 @@
+# BA-SEC-DEP-001 source audit: native dependency checks without protected 
+# environment credentials, issuer activation, provider simulation or deployment.
+name: Native Dependency Security Maintenance
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "13 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rust-kernel-advisories:
+    name: Daily locked Rust kernel advisory scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # pinned source
+        with:
+          toolchain: "1.90.0"
+      - name: Install pinned RustSec audit command
+        run: cargo install --locked cargo-audit --version 0.22.2
+      - name: Audit exact main kernel Cargo.lock
+        working-directory: rust-kernel
+        run: cargo audit --locked
+  python-runtime-advisories:
+    name: Daily Django runtime hash-locked and root-reference audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@06da6279cdbca41027908073e81a4544dc79c06b # pinned
+        with:
+          python-version: "3.14"
+      - name: Isolated auditor and reference-only Python project install
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv "$RUNNER_TEMP/tdoc-audit"
+          "$RUNNER_TEMP/tdoc-audit/bin/python" -m pip install --disable-pip-version-check "pip-audit==2.10.1"
+          "$RUNNER_TEMP/tdoc-audit/bin/python" -m pip install --disable-pip-version-check -e .
+      - name: Audit the committed runtime SHA256-locked requirements
+        shell: bash
+        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --strict --no-deps --requirement runtime/requirements.lock"
+      - name: Audit installed reference-only Python dependencies
+        shell: bash
+        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --local --strict"
