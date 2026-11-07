@@ -4,3 +4,13 @@
 /.baobab/ @baobab-platform/platform-engineering
 /Dockerfile @baobab-platform/platform-engineering @baobab-platform/security
 /SECURITY.md @baobab-platform/security
+/.github/dependabot.yml @baobab-platform/platform-engineering @baobab-platform/security
+/.github/workflows/enforce-dependabot-config.yml @baobab-platform/platform-engineering @baobab-platform/security
+/.github/workflows/dependency-security.yml @baobab-platform/platform-engineering @baobab-platform/security
+/docs/security/dependency-maintenance.md @baobab-platform/platform-engineering @baobab-platform/security
+/tests/security/test_dependency_policy.py @baobab-platform/platform-engineering @baobab-platform/security
+/runtime/requirements.lock @baobab-platform/platform-engineering @baobab-platform/security
+/rust-kernel/Cargo.lock @baobab-platform/platform-engineering @baobab-platform/security
+/rust-kernel/fuzz/ @baobab-platform/platform-engineering @baobab-platform/security
+/.devcontainer/compose.yml @baobab-platform/platform-engineering @baobab-platform/security
+/rust-kernel/pyproject.toml @baobab-platform/platform-engineering @baobab-platform/security
