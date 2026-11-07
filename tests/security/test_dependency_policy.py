@@ -16,7 +16,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 REPO = "baobab-trade-docs"
-EXPECTED = {("github-actions", "/"), ("pip", "/"), ("pip", "/runtime"), ("pip", "/rust-kernel"), ("cargo", "/rust-kernel"), ("docker", "/.devcontainer"), ("docker-compose", "/.devcontainer")}
+EXPECTED = {("github-actions", "/"), ("pip", "/"), ("pip", "/runtime"), ("pip", "/rust-kernel"), ("cargo", "/rust-kernel"), ("cargo", "/rust-kernel/fuzz"), ("docker", "/.devcontainer"), ("docker-compose", "/.devcontainer")}
 COMPOSE = ("compose.yaml", "compose.yml", "docker-compose.yaml", "docker-compose.yml")
 
 
