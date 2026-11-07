@@ -26,7 +26,7 @@ jobs:
         run: cargo install --locked cargo-audit --version 0.22.2
       - name: Audit exact main kernel Cargo.lock
         working-directory: rust-kernel
-        run: cargo audit --locked
+        run: cargo audit --file Cargo.lock
   python-runtime-advisories:
     name: Daily Django runtime hash-locked and root-reference audit
     runs-on: ubuntu-24.04
