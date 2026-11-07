@@ -74,6 +74,20 @@ updates:
       prefix: "chore"
       include: "scope"
 
+  # Independent Cargo fuzz workspace (not a member of rust-kernel/Cargo.lock).
+  - package-ecosystem: "cargo"
+    directory: "/rust-kernel/fuzz"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:45"
+      timezone: "Africa/Johannesburg"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "rust"]
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
   - package-ecosystem: "docker"
     directory: "/.devcontainer"
     schedule:
