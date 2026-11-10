@@ -285,6 +285,28 @@ class CustodyServiceTests(DomainFixtures, TestCase):
                 retain_until=self.until)
         self.assertEqual(self.client.put_calls, 0)
 
+    def test_direct_sql_cannot_mark_custody_verified_without_receipt(self):
+        # Raw SQL must not bypass evidence custody, even with a valid manifest.
+        attempt = self._create_only_unobserved_attempt()
+        self.assertEqual(CustodyAttempt.objects.get(pk=attempt.pk).state, "PENDING")
+
+    def _create_only_unobserved_attempt(self):
+        from documentary.models import CustodyAttempt
+        attempt = CustodyAttempt.objects.create(
+            artifact=self.artifact, tenant_id="tn_alpha", bucket=self.store.bucket,
+            object_key=self.store.object_key(self.artifact.pk),
+            expected_digest=self.artifact.digest_value, expected_size=len(self.raw),
+            required_retention_until=self.until,
+        )
+        with self.assertRaises(DatabaseError):
+            with transaction.atomic():
+                with connection.cursor() as c:
+                    c.execute(
+                        "UPDATE documentary_custodyattempt SET state='VERIFIED' WHERE id=%s",
+                        [str(attempt.pk)],
+                    )
+        return attempt
+
     def test_lost_upload_result_recovers_only_one_exact_version(self):
         self.client.fail_after_put = True
         with self.assertRaisesRegex(CustodyFailure, "UPLOAD_UNKNOWN"):

@@ -1,6 +1,6 @@
 # baobab-trade-docs
 
-> **Status:** Accepted architectural baseline; HYB-01 hybrid runtime and a bounded HYB-03A draft-only persistence scaffold exist. No active document issuance or production provider.
+> **Status:** Accepted architectural baseline; HYB-01 hybrid runtime and draft-only HYB-03A/HYB-03B documentary, S3 custody and recovery scaffolds exist. No active document issuance or production provider.
 
 Baobab Trade Docs is the Baobab Platform engine for **executable trade-document
 and Customs-workflow state**. Its accepted architecture is defined by
@@ -220,7 +220,7 @@ the old v1 model locally.
 
 ### HYB-03A draft-only persistence increment
 
-The development runtime also contains a private `documentary` Django app with distinct document/version/artifact/relationship tables, PostgreSQL-level append-only guards, draft-only and unverified-only checks, and direct-SQL negative tests. This is source scaffolding, **not HYB-03 qualification**, external custody, a document issuer, an API or a provider. See [HYB-03A scaffold](docs/architecture/TDOC-HYB-03A-persistence-scaffold.md).
+The development runtime also contains a private `documentary` Django app with distinct document/version/artifact/relationship tables, PostgreSQL-level append-only guards, draft-only and unverified-only checks, and direct-SQL negative tests. This is source scaffolding, **not HYB-03 qualification**, a document issuer, an API or an activated provider. HYB-03B now adds a versioned private S3-compatible custody adapter, append-only technical receipts, non-destructive recovery and complete Shared v2 draft projections; see [HYB-03B](docs/architecture/TDOC-HYB-03B-domain-and-custody.md). See [HYB-03A scaffold](docs/architecture/TDOC-HYB-03A-persistence-scaffold.md).
 
 ## P0-04A reference contract convergence
 

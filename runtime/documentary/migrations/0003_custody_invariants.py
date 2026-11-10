@@ -154,6 +154,18 @@ BEGIN
      expected_ref <> ('s3://' || NEW.bucket || '/' || NEW.object_key) THEN
     RAISE EXCEPTION 'TDOC_ATTEMPT_SCOPE_OR_MANIFEST' USING ERRCODE = '23514';
   END IF;
+  IF TG_OP='UPDATE' THEN
+    IF NEW.attempts < OLD.attempts OR
+       (OLD.state='VERIFIED' AND NEW.state <> 'VERIFIED') THEN
+      RAISE EXCEPTION 'TDOC_CUSTODY_STATE_ROLLBACK_DENIED' USING ERRCODE='23514';
+    END IF;
+    IF NEW.state='VERIFIED' AND OLD.state <> 'VERIFIED' AND NOT EXISTS (
+      SELECT 1 FROM documentary_custodyobservation o
+      WHERE o.attempt_id=NEW.id AND o.kind='READBACK_VERIFIED'
+    ) THEN
+      RAISE EXCEPTION 'TDOC_VERIFIED_WITHOUT_RECEIPT' USING ERRCODE='23514';
+    END IF;
+  END IF;
   RETURN NEW;
 END;
 $$;

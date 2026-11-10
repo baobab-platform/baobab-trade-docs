@@ -41,10 +41,8 @@ def _record(attempt_id: UUID, generation: int, kind: str, state: str | None,
         attempt = CustodyAttempt.objects.select_for_update().get(pk=attempt_id)
         if attempt.attempts != generation:
             return False
-        if state is not None:
-            attempt.state = state
-            attempt.last_error_code = error_code
-            attempt.save(update_fields=["state", "last_error_code", "updated_at"])
+        # Insert the immutable receipt before the state transition; both
+        # operations share one PostgreSQL transaction and roll back together.
         CustodyObservation.objects.create(
             attempt=attempt, kind=kind,
             provider_version_id=receipt.version_id if receipt else version_id,
@@ -56,6 +54,10 @@ def _record(attempt_id: UUID, generation: int, kind: str, state: str | None,
             retain_until=receipt.retain_until if receipt else None,
             error_code=error_code,
         )
+        if state is not None:
+            attempt.state = state
+            attempt.last_error_code = error_code
+            attempt.save(update_fields=["state", "last_error_code", "updated_at"])
     return True
 
 
