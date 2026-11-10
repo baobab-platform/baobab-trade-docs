@@ -1,0 +1,25 @@
+# Source-only repository classification for Shared Foundation v1.
+# Trade Docs remains an experimental engine until HYB-03+ and IAM/CP qualify.
+schema_version: 1
+repository:
+  lifecycle: experimental
+capabilities:
+  - python
+  - rust
+  - container
+  - engine
+  - contracts
+  - github-actions
+environment:
+  baobab_dev:
+    required: false
+package_managers:
+  python: pip
+  rust: cargo
+artifacts:
+  # Only a development DevContainer exists. No shipping/approved OCI image.
+  container: false
+security:
+  # Public repository: Shared CodeQL can analyze Python and Rust, alongside
+  # Trivy and native advisory adapters; this is not a GHAS/private grant.
+  sast_provider: codeql

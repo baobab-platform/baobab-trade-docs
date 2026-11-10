@@ -1,0 +1,29 @@
+# Shared Foundation caller for the documentary engine (development only).
+# The immutable Shared pin governs repository gates; no local copy of those
+# reusable workflows or protected-provider activation is authorised here.
+name: Foundation Repository Gates
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+  actions: read
+  security-events: write
+
+jobs:
+  foundation:
+    uses: baobab-platform/shared/.github/workflows/foundation-repository-gates.yml@584d7f3cd8426ffd3d1dc9f068f0b444dc74346e
+    secrets:
+      SHARED_READ_TOKEN: ${{ secrets.SHARED_READ_TOKEN }}
+    with:
+      foundation_ref: "584d7f3cd8426ffd3d1dc9f068f0b444dc74346e"
+      profile: ${{ github.event_name == 'schedule' && 'security-deep' || 'full' }}
+      # Trade Docs is public: dependency review requires no private GHAS grant.
+      dependency_review_enabled: true
