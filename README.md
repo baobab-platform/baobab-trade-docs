@@ -1,6 +1,6 @@
 # baobab-trade-docs
 
-> **Status:** Accepted architectural baseline; HYB-01 development-only hybrid runtime scaffold exists. No active document issuance or production provider.
+> **Status:** Accepted architectural baseline; HYB-01 hybrid runtime and a bounded HYB-03A draft-only persistence scaffold exist. No active document issuance or production provider.
 
 Baobab Trade Docs is the Baobab Platform engine for **executable trade-document
 and Customs-workflow state**. Its accepted architecture is defined by
@@ -217,6 +217,10 @@ The HYB-01 scaffold has activated the Python/Rust runtime declaration, Codespace
 The implementation must start from Shared v2 semantics rather than reproducing
 the old v1 model locally.
 
+
+### HYB-03A draft-only persistence increment
+
+The development runtime also contains a private `documentary` Django app with distinct document/version/artifact/relationship tables, PostgreSQL-level append-only guards, draft-only and unverified-only checks, and direct-SQL negative tests. This is source scaffolding, **not HYB-03 qualification**, external custody, a document issuer, an API or a provider. See [HYB-03A scaffold](docs/architecture/TDOC-HYB-03A-persistence-scaffold.md).
 
 ## P0-04A reference contract convergence
 
