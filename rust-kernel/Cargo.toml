@@ -13,5 +13,8 @@ pyo3 = "=0.30.1"
 
 sha2 = "=0.10.9"
 
+# PyO3's extension-module alters Unix linking: never activate it while
+# running cargo test --all-features (the shared Foundation runtime gate).
+# Maturin enables pyo3/extension-module directly for native wheel builds.
 [features]
-extension-module = ["pyo3/extension-module"]
+default = []

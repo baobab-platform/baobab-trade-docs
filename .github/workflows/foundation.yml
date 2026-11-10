@@ -1,0 +1,32 @@
+# Shared Foundation caller for the documentary engine (development only).
+# The immutable Shared pin governs repository gates; no local copy of those
+# reusable workflows or protected-provider activation is authorised here.
+name: Foundation Repository Gates
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+  actions: read
+  security-events: write
+
+jobs:
+  foundation:
+    uses: baobab-platform/shared/.github/workflows/foundation-repository-gates.yml@584d7f3cd8426ffd3d1dc9f068f0b444dc74346e
+    secrets:
+      SHARED_READ_TOKEN: ${{ secrets.SHARED_READ_TOKEN }}
+    with:
+      foundation_ref: "584d7f3cd8426ffd3d1dc9f068f0b444dc74346e"
+      profile: ${{ github.event_name == 'schedule' && 'security-deep' || 'full' }}
+      # Blocked in the repository settings: GitHub's Dependency Graph is OFF.
+      # A live attempt on PR #26 failed "Dependency review is not supported".
+      # Re-enable true only AFTER the owner enables Dependency Graph and
+      # the positive PR job proves a genuine analysis. This is NOT a waiver.
+      dependency_review_enabled: false

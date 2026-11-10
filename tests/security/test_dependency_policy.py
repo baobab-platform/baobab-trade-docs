@@ -177,13 +177,13 @@ class DependencyPolicyTests(unittest.TestCase):
         content = (ROOT / ".github/workflows/enforce-dependabot-config.yml").read_text()
         self.assertIn(
             "enforce-dependabot-config.yml@"
-            "31de2bc3dcd56128c019c640dc7e12c10ae9ca69",
+            "584d7f3cd8426ffd3d1dc9f068f0b444dc74346e",
             content,
         )
-        r = re.search(r'required-ecosystems:s*"([^"]+)"', content)
+        r = re.search(r'required-ecosystems:\s*"([^"]+)"', content)
         self.assertIsNotNone(r)
         self.assertEqual({eco for eco, _ in EXPECTED}, set(r.group(1).split(",")))
-        self.assertNotIn('policy-level: "strict"', content)
+        self.assertRegex(content, r"(?m)^\s+policy-level:\s+strict\s*$")
 
     def test_policy_review_and_security_codeowners(self):
         content = (ROOT / ".github/CODEOWNERS").read_text()
@@ -279,7 +279,7 @@ class DependencyPolicyTests(unittest.TestCase):
         if REPO == "baobab-subscriptions":
             self.assertIn("dependency-check-maven:12.1.0:check", text)
         if REPO == "baobab-regulations":
-            self.assertIn("pip-audit --local --strict", text)
+            self.assertIn("pip-audit --strict --no-deps --requirement requirements-conformance.txt", text)
         if REPO == "baobab-tms":
             self.assertIn("untracked third-party dependencies", text)
 
