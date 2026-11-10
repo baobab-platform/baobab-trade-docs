@@ -4,3 +4,7 @@ psycopg[binary]>=3.2,<3.4
 maturin==1.15.0
 # S3-compatible private object store adapter; locked provider SDK.
 boto3==1.43.18
+# Exact, offline-verified Shared v2 JSON Schema projections.
+jsonschema==4.26.0
+referencing==0.37.0
+rfc3339-validator==0.1.4
