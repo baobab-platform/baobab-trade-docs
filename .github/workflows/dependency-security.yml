@@ -38,16 +38,15 @@ jobs:
       - uses: actions/setup-python@06da6279cdbca41027908073e81a4544dc79c06b # pinned
         with:
           python-version: "3.14"
-      - name: Isolated auditor and reference-only Python project install
+      - name: Install isolated pinned vulnerability auditor
         shell: bash
         run: |
           set -euo pipefail
           python -m venv "$RUNNER_TEMP/tdoc-audit"
           "$RUNNER_TEMP/tdoc-audit/bin/python" -m pip install --disable-pip-version-check "pip-audit==2.10.1"
-          "$RUNNER_TEMP/tdoc-audit/bin/python" -m pip install --disable-pip-version-check -e .
       - name: Audit the committed runtime SHA256-locked requirements
         shell: bash
         run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --strict --no-deps --requirement runtime/requirements.lock"
-      - name: Audit installed reference-only Python dependencies
+      - name: Audit exact frozen reference dependency closure
         shell: bash
-        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --local --strict --skip-editable"
+        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --strict --no-deps --requirement requirements-conformance.txt"

@@ -279,7 +279,7 @@ class DependencyPolicyTests(unittest.TestCase):
         if REPO == "baobab-subscriptions":
             self.assertIn("dependency-check-maven:12.1.0:check", text)
         if REPO == "baobab-regulations":
-            self.assertIn("pip-audit --local --strict", text)
+            self.assertIn("pip-audit --strict --no-deps --requirement requirements-conformance.txt", text)
         if REPO == "baobab-tms":
             self.assertIn("untracked third-party dependencies", text)
 
