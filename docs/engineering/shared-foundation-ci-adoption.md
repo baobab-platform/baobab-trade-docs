@@ -46,7 +46,7 @@ Trade Docs' true code lives under `rust-kernel/` and `runtime/`. Therefore:
 
 PR/push/dispatch runs request the Shared `full` profile with baseline,
 reproducibility, generic runtime, portable/native security, CodeQL and
-dependency review (for PRs). Weekly schedule uses `security-deep`.
+dependency review **only after repository Dependency Graph is enabled**. Weekly schedule uses `security-deep`.
 The aggregate `Foundation / Result` is the policy gate. All Shared code
 refs are pinned to one 40-character commit. No `secrets: inherit`.
 
@@ -68,3 +68,18 @@ approval. No exceptions, waiver, or release override is introduced.
 Do not merge the stacked PR while its foundation policy or dependency
 maintenance base (#22) is unqualified. Upgrading to a different Shared SHA
 requires explicit review and downstream validation.
+
+### Dependency Review — repo-setting blocker, NOT a pass
+
+On PR #26's first actual `dependency_review_enabled: true` run, the pinned
+Shared `actions/dependency-review-action` failed with:
+
+> Dependency review is not supported on this repository. Please ensure that Dependency graph is enabled.
+
+No GitHub repository-setting mutation capability is available in this CI
+adoption workflow. Until a repository administrator enables Dependency Graph
+under `Settings → Security & analysis`, the Shared caller must explicitly
+use `dependency_review_enabled: false`. This is tracked as **BLOCKED**, not
+`PASSED` or a policy exception. Restore `true` after enabling the setting and
+validate the PR-dependency-review evidence; native cargo-audit, pip-audit and
+Trivy remain mandatory in the meantime.

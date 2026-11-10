@@ -25,5 +25,8 @@ jobs:
     with:
       foundation_ref: "584d7f3cd8426ffd3d1dc9f068f0b444dc74346e"
       profile: ${{ github.event_name == 'schedule' && 'security-deep' || 'full' }}
-      # Trade Docs is public: dependency review requires no private GHAS grant.
-      dependency_review_enabled: true
+      # Blocked in the repository settings: GitHub's Dependency Graph is OFF.
+      # A live attempt on PR #26 failed "Dependency review is not supported".
+      # Re-enable true only AFTER the owner enables Dependency Graph and
+      # the positive PR job proves a genuine analysis. This is NOT a waiver.
+      dependency_review_enabled: false
