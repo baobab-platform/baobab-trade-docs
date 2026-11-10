@@ -107,3 +107,14 @@ baseline-only enforcement inherited from PR #22. The consumer now sets
 The PR #22 independent policy-negatives and daily security audit remain.
 This is a **stricter** gate, not an exception; the user-authorised
 maintenance policy remains in force.
+
+### Local Python package versus PyPI audits
+
+The inherited PR #22 daily audit installed this repository as an **editable**
+reference package and then ran `pip-audit --local --strict`, which failed
+because `baobab-trade-docs-reference==0.1.0` is a local, unpublished package
+and cannot be audited on PyPI. The audit now uses the official
+`--skip-editable` flag with `--strict`; this excludes only local editable
+project entries, **not** third-party dependencies. The hash-locked Django
+runtime audit and Foundation pip/Trivy/native SAST remain mandatory. This
+is not a vulnerability ignore or severity reduction.

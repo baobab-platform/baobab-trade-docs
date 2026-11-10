@@ -50,4 +50,4 @@ jobs:
         run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --strict --no-deps --requirement runtime/requirements.lock"
       - name: Audit installed reference-only Python dependencies
         shell: bash
-        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --local --strict"
+        run: "$RUNNER_TEMP/tdoc-audit/bin/pip-audit --local --strict --skip-editable"
