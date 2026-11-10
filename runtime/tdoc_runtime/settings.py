@@ -5,7 +5,7 @@ SECRET_KEY = os.environ.get("TDOC_SECRET_KEY", "hyb01-development-only-unsafe-ke
 DEBUG = os.environ.get("TDOC_DEBUG", "false").lower() == "true"
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "testserver"]
 ROOT_URLCONF = "tdoc_runtime.urls"
-INSTALLED_APPS = ["django.contrib.contenttypes", "django.contrib.auth"]
+INSTALLED_APPS = ["django.contrib.contenttypes", "django.contrib.auth", "documentary"]
 MIDDLEWARE = ["django.middleware.security.SecurityMiddleware"]
 DATABASES = {
     "default": {

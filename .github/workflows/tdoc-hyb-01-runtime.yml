@@ -93,6 +93,7 @@ jobs:
         working-directory: runtime
         run: |
           ../.venv/bin/python manage.py check
+          ../.venv/bin/python manage.py makemigrations --check --dry-run
           ../.venv/bin/python manage.py migrate --noinput
           ../.venv/bin/python manage.py test tests -v2
           ../.venv/bin/python -c "from tdoc_runtime.kernel import kernel_probe; assert kernel_probe() == 'rust-pyo3-ok'"
