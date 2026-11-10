@@ -30,3 +30,13 @@ Evidence state **SOURCE_COMMITTED** means source reviewed/committed, not execute
 4. Obtain separate staging/production approvals and deployment evidence. No protected environment, credential, provider or release is activated by this policy adoption.
 
 No CI run or monitoring, PR merge or protected business approval has been claimed.
+
+## Shared Foundation dependency policy reconciliation (PR #26)
+
+The approved Shared strict BA-SEC-DEP-001 validator is now merged and
+available at pinned commit `584d7f3cd8426ffd3d1dc9f068f0b444dc74346e`.
+The stacked Foundation adoption upgrades the caller to
+`policy-level: strict` and retains the independently tested source-policy
+negatives and native advisories. This supersedes the earlier note that
+strict mode existed only in an unmerged Shared PR; it does not imply
+merged status for this repository's PR #22 or #26.

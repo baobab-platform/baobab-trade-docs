@@ -97,3 +97,13 @@ workflows; maturin explicitly enables the **dependency** feature
 `pyo3/extension-module` for CPython 3.14 wheel construction. This preserves
 the required native extension ABI and does not weaken the Shared Rust
 formatter, Clippy or test rules. HYB-01 independent wheel/ABI CI verifies it.
+
+### Strict dependency-maintenance conformance
+
+The merged Shared `enforce-dependabot-config.yml` at the same reviewed SHA
+`584d7f3cd8426ffd3d1dc9f068f0b444dc74346e` replaces the older
+baseline-only enforcement inherited from PR #22. The consumer now sets
+`policy-level: strict` and requires `github-actions,pip,cargo,docker,docker-compose`.
+The PR #22 independent policy-negatives and daily security audit remain.
+This is a **stricter** gate, not an exception; the user-authorised
+maintenance policy remains in force.
