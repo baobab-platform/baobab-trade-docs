@@ -83,3 +83,17 @@ use `dependency_review_enabled: false`. This is tracked as **BLOCKED**, not
 `PASSED` or a policy exception. Restore `true` after enabling the setting and
 validate the PR-dependency-review evidence; native cargo-audit, pip-audit and
 Trivy remain mandatory in the meantime.
+
+### PyO3 compatibility with the Shared Rust all-feature test gate
+
+The generic Shared `cargo test --workspace --all-features --locked` exposed a
+real linker incompatibility: the crate-local feature named
+`extension-module` activated `pyo3/extension-module` even for test executables.
+That feature deliberately leaves Python C API symbols unresolved for a
+Python-loaded shared library, so test executable linking fails on Linux.
+
+The Rust crate no longer advertises that feature to general `--all-features`
+workflows; maturin explicitly enables the **dependency** feature
+`pyo3/extension-module` for CPython 3.14 wheel construction. This preserves
+the required native extension ABI and does not weaken the Shared Rust
+formatter, Clippy or test rules. HYB-01 independent wheel/ABI CI verifies it.
