@@ -210,6 +210,11 @@ See the [full Trade Docs ADR register](docs/adr/README.md). The accepted foundat
 
 No production application runtime or activated document issuer is present yet.
 
+The real `.baobab/capability-provider.yaml` is a **candidate-only** ADR-SHARED-017
+source declaration. Its planned keys are not canonical Shared capabilities,
+provider support or certification. The pinned Shared conformance workflow
+validates their syntax and absence of runtime-provider claims.
+
 For compatibility with RTD-10’s architecture-only boundary assertion, its original phrase **“runtime implementation has not started”** remains true **of the production documentary domain/provider implementation**, not of the HYB-01 development tooling and diagnostic scaffold. Neither real issuing authority nor canonical document-state implementation is accepted here. The development-only HYB-01 Django/Rust/PostgreSQL 17 scaffold is in `runtime/`, `rust-kernel/`, `.devcontainer/` and its dedicated GitHub Actions workflow. Reproducible dependency locks and isolated proof are governed by `docs/architecture/TDOC-HYB-01-implementation.md`.
 
 The HYB-01 scaffold has activated the Python/Rust runtime declaration, Codespaces DevContainer and a dedicated native build/database CI gate. It does not implement issue/revoke/document publishing APIs; provider activation and protected runtime acceptance require later qualified gates.

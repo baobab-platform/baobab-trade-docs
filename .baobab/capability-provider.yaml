@@ -1,0 +1,30 @@
+# ADR-SHARED-017 (EA-02): candidate-only capability intent.
+# Trade Docs has no qualified document provider or active document issuing API.
+# No provider support, certification, binding, grant or runtime readiness
+# follows from this source declaration. CP/IAM retain all runtime authority.
+schema:
+  name: baobab-capability-provider-declaration
+  version: "1.0"
+
+engine:
+  engine_id: baobab-trade-docs
+
+planned_capabilities:
+  - proposed_key: documents.trade-document.manage
+    proposal_status: CANDIDATE
+    description: >-
+      Possible future governed TradeDocument creation, state and correction
+      operations. Neither a canonical catalogue key nor active issuing authority.
+    provenance:
+      authority:
+        repository: baobab-platform/baobab-trade-docs
+        decision: ADR-TDOC-0002
+  - proposed_key: documents.document-version.verify
+    proposal_status: CANDIDATE
+    description: >-
+      Possible future version-scoped authenticity and verification workflow;
+      never a legal sufficiency or Regulations approval decision.
+    provenance:
+      authority:
+        repository: baobab-platform/baobab-trade-docs
+        decision: ADR-TDOC-0002

@@ -1,0 +1,60 @@
+# ADR-SHARED-017: source contract presence is not provider activation.
+# Shared source is pinned to the existing contracts.lock.yaml commitment.
+name: Capability Provider Intent Conformance
+
+on:
+  pull_request:
+    paths:
+      - ".baobab/capability-provider.yaml"
+      - ".github/workflows/capability-provider-intent.yml"
+      - "contracts.lock.yaml"
+  push:
+    branches: [main]
+    paths:
+      - ".baobab/capability-provider.yaml"
+      - ".github/workflows/capability-provider-intent.yml"
+      - "contracts.lock.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SHARED_REF: a9c53087d63caa356edf54ec8037ba1713c4827f
+
+jobs:
+  contract:
+    name: Candidate-only ADR-017 declaration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Trade Docs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Checkout immutable Shared contract authority
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: baobab-platform/shared
+          ref: ${{ env.SHARED_REF }}
+          path: .shared
+          persist-credentials: false
+      - uses: actions/setup-python@06da6279cdbca41027908073e81a4544dc79c06b # v7.0.0+6
+        with:
+          python-version: "3.13"
+      - name: Install immutable Shared validation dependencies
+        run: python -m pip install --disable-pip-version-check -r .shared/.github/foundation-tests/requirements.txt
+      - name: Validate pin and candidate-only contract
+        run: |
+          python - <<'PY'
+          import pathlib
+          import yaml
+          lock = yaml.safe_load(pathlib.Path("contracts.lock.yaml").read_text())
+          assert lock["source"]["repository"] == "baobab-platform/shared"
+          assert lock["source"]["commit"] == "a9c53087d63caa356edf54ec8037ba1713c4827f"
+          declaration = yaml.safe_load(pathlib.Path(".baobab/capability-provider.yaml").read_text())
+          assert declaration["engine"]["engine_id"] == "baobab-trade-docs"
+          assert not declaration.get("providers"), "HYB-01 is not a qualified capability provider"
+          assert declaration["planned_capabilities"]
+          assert all(item["proposal_status"] == "CANDIDATE" and "proposed_key" in item and "capability_key" not in item for item in declaration["planned_capabilities"])
+          PY
+          python .shared/scripts/capability_catalogue.py --contracts-root .shared/contracts validate-declaration .baobab/capability-provider.yaml --engine-id baobab-trade-docs --repository-root .
