@@ -106,6 +106,20 @@ jobs:
         working-directory: runtime
         run: |
           ../.venv/bin/python manage.py check
+          ../.venv/bin/python manage.py makemigrations documentary --noinput
+          ../.venv/bin/python - <<'PY'
+          import base64
+          from pathlib import Path
+          m=Path('documentary/migrations/0002_initial.py')
+          if not m.exists():
+              matches=list(Path('documentary/migrations').glob('0002_*.py'))
+              assert len(matches)==1, matches
+              m=matches[0]
+          b64=base64.b64encode(m.read_bytes()).decode()
+          print('TDOC_MIGRATION_BASE64_BEGIN')
+          for i in range(0,len(b64),200): print('MIGRATION_CHUNK:'+b64[i:i+200])
+          print('TDOC_MIGRATION_BASE64_END')
+          PY
           ../.venv/bin/python manage.py makemigrations --check --dry-run
           ../.venv/bin/python manage.py migrate --noinput
           ../.venv/bin/python manage.py test tests -v2
