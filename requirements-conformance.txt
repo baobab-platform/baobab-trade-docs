@@ -8,5 +8,5 @@ jsonschema-specifications==2025.9.1
 rpds-py==2026.9.1
 typing-extensions==4.16.0
 PyYAML==6.0.3
-setuptools==84.0.0
+setuptools==84.1.0
 wheel==0.48.0
