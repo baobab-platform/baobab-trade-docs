@@ -40,3 +40,12 @@ The stacked Foundation adoption upgrades the caller to
 negatives and native advisories. This supersedes the earlier note that
 strict mode existed only in an unmerged Shared PR; it does not imply
 merged status for this repository's PR #22 or #26.
+
+### Genuine advisory remediation found by new CI
+
+After the reference-only audit was corrected to inspect the frozen third-party
+closure, pip-audit identified `setuptools==84.0.0` under
+`GHSA-xmj3-9gf7-h52w`, with `84.1.0` as the fixed version. We upgraded the
+reference dependency pin to `setuptools==84.1.0`. The audit remains strict,
+checks the entire listed closure and introduces no advisory allowlist or waiver.
+The pinned reference toolchain must also pass LA-05F conformance after upgrade.

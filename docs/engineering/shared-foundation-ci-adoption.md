@@ -120,3 +120,12 @@ reference closure in `requirements-conformance.txt` using
 The separate hash-locked Django runtime audit and Shared Foundation native
 pip, Trivy and CodeQL gates remain. No package vulnerability was ignored,
 and no strict error condition was relaxed.
+
+### Genuine advisory remediation found by new CI
+
+After the reference-only audit was corrected to inspect the frozen third-party
+closure, pip-audit identified `setuptools==84.0.0` under
+`GHSA-xmj3-9gf7-h52w`, with `84.1.0` as the fixed version. We upgraded the
+reference dependency pin to `setuptools==84.1.0`. The audit remains strict,
+checks the entire listed closure and introduces no advisory allowlist or waiver.
+The pinned reference toolchain must also pass LA-05F conformance after upgrade.
