@@ -7,6 +7,10 @@ dependencies = [
   "Django>=6.0,<6.1",
   "psycopg[binary]>=3.2,<3.4",
   "baobab-tdoc-kernel==0.1.0",
+  "boto3==1.43.18",
+  "jsonschema==4.26.0",
+  "referencing==0.37.0",
+  "rfc3339-validator==0.1.4",
 ]
 
 [tool.pytest.ini_options]

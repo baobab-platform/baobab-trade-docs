@@ -41,3 +41,5 @@ The existing HYB-01 workflow exercises the migration and tests on actual Postgre
 4. Then take HYB-04 live IAM/CP issuer and capability fencing and HYB-05 atomic audit/outbox through independent connected qualification.
 
 The conformance file remains `ARCHITECTURE_ONLY`, and no provider manifest is activated.
+
+**Follow-on:** [HYB-03B](TDOC-HYB-03B-domain-and-custody.md) implements these domain and custody ports at development-source level. The protected and live-provider qualification limitations above remain in effect.
