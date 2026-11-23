@@ -1,0 +1,22 @@
+schema:
+  name: "baobab-platform-development-environment-contract"
+  version: "1.0"
+application:
+  name: "baobab-trade-docs"
+  version: "0.1.0"
+environment:
+  provider: "baobab-dev"
+  profile: "full"
+  minimum_version: "1.4.4"
+  contract_minimum_version: "1.0"
+compatibility_policy:
+  strict_runtime_versions: false
+  allow_newer_patch_versions: true
+  allow_newer_minor_versions: false
+  allow_older_versions: false
+validation:
+  required_capabilities:
+    - "languages.python"
+    - "development.github_cli"
+notes:
+  - "Trade Docs Codespaces uses v1.4.4 with Rust layered via Dev Container feature; PostgreSQL is optional at startup."
