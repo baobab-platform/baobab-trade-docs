@@ -5,10 +5,20 @@
   "workspaceFolder": "/workspaces/baobab-trade-docs",
   "shutdownAction": "stopCompose",
   "remoteUser": "vscode",
-  "postCreateCommand": "bash scripts/hyb01-bootstrap.sh",
+  "postCreateCommand": "python --version",
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "rust-lang.rust-analyzer"]
+      "extensions": [
+        "ms-python.python",
+        "rust-lang.rust-analyzer"
+      ]
     }
-  }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/rust:1": {}
+  },
+  "runServices": [],
+  "waitFor": "postCreateCommand",
+  "init": true,
+  "updateRemoteUserUID": true
 }
