@@ -1,8 +1,6 @@
 services:
   workspace:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/baobab-platform/baobab-dev:1.4.4
     volumes:
       - ../:/workspaces/baobab-trade-docs:cached
     command: sleep infinity
@@ -11,9 +9,6 @@ services:
       POSTGRES_DB: tdoc
       POSTGRES_USER: tdoc
       POSTGRES_PASSWORD: local-dev-only
-    depends_on:
-      postgres:
-        condition: service_healthy
   postgres:
     image: postgres:17.11-bookworm@sha256:858bb5e98eed02eb8cafbcdc007f9a65d1b613972028944a8ec2133ccaf80d27
     environment:
